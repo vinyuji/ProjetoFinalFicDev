@@ -1,4 +1,4 @@
-const Sala = require('../model/SalaModel');
+const Sala = require('../../model/SalaModel');
 
 //Create Salas
 async function createSala(req, res) {

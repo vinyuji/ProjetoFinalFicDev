@@ -1,48 +1,52 @@
 'use strict';
 
+
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('User', {
       Cpf: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.TEXT,
         primaryKey: true,
         allowNull: false,
       },
       Nome: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       Cep: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       Senha: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       Email: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       FormacaoAcademica: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       TempoDeCurso: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       Especializacao: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.TEXT,
         allowNull: false,
       },
-      fk_Reserva_IdReserva: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Reserva',
-          key: 'IdReserva',
-        },
-        onDelete: 'CASCADE',
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
+      createdAt: {
+          type: Sequelize.DATE,
+          allowNull: false,
+          defaultValue: Sequelize.NOW,
       },
     });
   },

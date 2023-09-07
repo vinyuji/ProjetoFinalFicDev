@@ -1,36 +1,35 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../database/index');
+const sequelize = require('../database/index'); 
 
-class Sala extends Model {}
 
-Sala.init({
-  NomeSala: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  Funcao: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  TipoSala: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  NumeroSala: {
-    type: DataTypes.STRING(10),
-    allowNull: false,
-  },
-  Capacidade: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  modelName: 'Sala',
-  timestamps: false,
-});
+class SalaModel extends Model {
+  static init(database){
+    super.init({
+      IdSala: {
+        type: DataTypes.UUID,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false,
+        defaultValue: DataTypes.UUIDV4,
+      },
+        NomeSala: DataTypes.TEXT,
+        Funcao: DataTypes.TEXT,
+        TipoSala: DataTypes.TEXT,
+        NumeroSala: DataTypes.TEXT,
+        Capacidade: DataTypes.INTEGER,
+      },{
+        timestamps: true,
+        sequelize: database,
+        tableName: 'Sala',
+        modelName: 'sala',
+      })
+    }
+    static associate(models){
+      this.belongsTo(models.Reserva, { foreignKey: 'IdReserva' });
+    }
+}
 
-// Associação com a tabela Reserva
-Sala.belongsTo(sequelize.models.Reserva, { foreignKey: 'fk_Reserva_IdReserva', as: 'Reserva' });
 
-module.exports = Sala;
+
+module.exports = { SalaModel };
+

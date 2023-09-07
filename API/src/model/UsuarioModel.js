@@ -1,49 +1,36 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../database/index');
+const sequelize = require('../database/index'); 
 
-class User extends Model {}
 
-User.init({
-  Cpf: {
-    type: DataTypes.STRING(20),
-    primaryKey: true,
-    allowNull: false,
-  },
-  Nome: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  Cep: {
-    type: DataTypes.STRING(10),
-    allowNull: false,
-  },
-  Senha: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  Email: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  FormacaoAcademica: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  TempoDeCurso: {
-    type: DataTypes.STRING(20),
-    allowNull: false,
-  },
-  Especializacao: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-}, {
-  sequelize,
-  modelName: 'User',
-  timestamps: false,
-});
+class UserModel extends Model {
+  static init(database){
+    super.init({
+      Cpf: {
+        type: DataTypes.UUID,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false,
+        defaultValue: DataTypes.UUIDV4,
+      },
+        Nome: DataTypes.TEXT,
+        Cep: DataTypes.TEXT,
+        Senha: DataTypes.TEXT,
+        Email: DataTypes.TEXT,
+        FormacaoAcademica: DataTypes.INTEGER,
+        TempoDeCurso: DataTypes.TEXT,
+        Especializacao: DataTypes.TEXT,
+      },{
+        timestamps: true,
+        sequelize: database,
+        tableName: 'User',
+        modelName: 'user',
+      })
+    }
+    static associate(models){
+      this.belongsTo(models.Reserva, { foreignKey: 'IdReserva' });
+    }
+}
 
-// Associação com a tabela Reserva
-User.belongsTo(sequelize.models.Reserva, { foreignKey: 'fk_Reserva_IdReserva', as: 'Reserva' });
 
-module.exports = User;
+
+module.exports = { UserModel };
