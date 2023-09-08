@@ -3,7 +3,7 @@ const { SalaModel } = require('../../model/SalaModel');
 // Deletar Sala
 class DeleteSalaController {
     async DeleteSala(req, res) {
-        const { IdSala } = req.params;
+        const { IdSala } = req.body;
         try {
           const deletedRows = await SalaModel.destroy({
             where: { IdSala },

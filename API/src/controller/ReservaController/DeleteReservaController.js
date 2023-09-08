@@ -4,7 +4,7 @@ const { ReservaModel } = require('../../model/ReservaModel');
 // Deletar reserva
 class DeleteReservaController {
     async DeleteReserva(req, res) {
-        const { IdReserva } = req.params;
+        const { IdReserva } = req.body;
         try {
           const deletedRows = await ReservaModel.destroy({
             where: { IdReserva },

@@ -2,6 +2,7 @@
 
 
 /** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Sala', {
@@ -40,6 +41,14 @@ module.exports = {
           type: Sequelize.DATE,
           allowNull: false,
           defaultValue: Sequelize.NOW,
+      },
+      fk_Reserva_IdReserva: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'Reserva',
+          key: 'IdReserva',
+        },
+        onDelete: 'CASCADE',
       },
     });
   },

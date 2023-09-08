@@ -7,7 +7,6 @@ class ReservaModel extends Model {
     super.init({
       IdReserva: {
         type: DataTypes.UUID,
-        autoIncrement: true,
         primaryKey: true,
         allowNull: false,
         defaultValue: DataTypes.UUIDV4,
@@ -19,6 +18,8 @@ class ReservaModel extends Model {
         Capacidade: DataTypes.INTEGER,
         PessoaReservista: DataTypes.TEXT,
         Status: DataTypes.TEXT,
+        Cpf: DataTypes.TEXT,
+        IdSala: DataTypes.UUID,
       },{
         timestamps: true,
         sequelize: database,
@@ -27,8 +28,8 @@ class ReservaModel extends Model {
       })
     }
     static associate(models){
-      this.hasMany(models.user, { foreignKey: 'Cpf'});
-      this.hasMany(models.sala, { foreignKey: 'IdSala'});
+      this.belongsTo(models.user, { foreignKey: 'Cpf'});
+      this.belongsTo(models.sala, { foreignKey: 'IdSala'});
     }
 }
 

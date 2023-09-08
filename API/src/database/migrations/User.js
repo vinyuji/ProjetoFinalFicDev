@@ -2,11 +2,12 @@
 
 
 /** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('User', {
       Cpf: {
-        type: Sequelize.UUID,
+        type: Sequelize.TEXT,
         defaultValeu: Sequelize.UUIDV4,
         primaryKey: true,
         allowNull: false
@@ -29,15 +30,20 @@ module.exports = {
       },
       FormacaoAcademica: {
         type: Sequelize.TEXT,
-        allowNull: false,
       },
       TempoDeCurso: {
         type: Sequelize.TEXT,
-        allowNull: false,
       },
       Especializacao: {
         type: Sequelize.TEXT,
-        allowNull: false,
+      },
+      fk_Reserva_IdReserva: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'Reserva',
+          key: 'IdReserva',
+        },
+        onDelete: 'CASCADE',
       },
       updatedAt: {
         type: Sequelize.DATE,
@@ -56,4 +62,3 @@ module.exports = {
     await queryInterface.dropTable('User');
   }
 };
-

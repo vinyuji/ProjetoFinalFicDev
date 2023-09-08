@@ -6,7 +6,7 @@ class UserModel extends Model {
     super.init(
       {
         Cpf: {
-          type: DataTypes.UUID,
+          type: DataTypes.TEXT,
           primaryKey: true,
           allowNull: false,
           defaultValue: DataTypes.UUIDV4,
@@ -15,7 +15,7 @@ class UserModel extends Model {
         Cep: DataTypes.TEXT,
         Senha: DataTypes.TEXT,
         Email: DataTypes.TEXT,
-        FormacaoAcademica: DataTypes.INTEGER,
+        FormacaoAcademica: DataTypes.TEXT,
         TempoDeCurso: DataTypes.TEXT,
         Especializacao: DataTypes.TEXT,
       },
@@ -27,7 +27,7 @@ class UserModel extends Model {
       })
   }
   static associate(models){
-    this.belongsTo(models.reserva, { foreignKey: 'IdReserva' });
+    this.hasMany(models.reserva, { foreignKey: 'IdReserva' });
   }
 }
 
