@@ -1,7 +1,7 @@
 require('./database'); //iniciando o banco de dados antes do servidor
 
 const express = require( 'express' );
-const { routes } = require('./routes');
+const { routes } = require('./Router');
 const server = express();
 
 server.use(express.json());

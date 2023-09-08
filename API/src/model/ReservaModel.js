@@ -28,7 +28,7 @@ class ReservaModel extends Model {
     }
     static associate(models){
       this.hasMany(models.user, { foreignKey: 'Cpf'});
-      this.hasMany(models.Sala, { foreignKey: 'IdReserva'});
+      this.hasMany(models.sala, { foreignKey: 'IdSala'});
     }
 }
 

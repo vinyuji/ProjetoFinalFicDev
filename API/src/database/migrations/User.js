@@ -6,9 +6,10 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('User', {
       Cpf: {
-        type: Sequelize.TEXT,
+        type: Sequelize.UUID,
+        defaultValeu: Sequelize.UUIDV4,
         primaryKey: true,
-        allowNull: false,
+        allowNull: false
       },
       Nome: {
         type: Sequelize.TEXT,

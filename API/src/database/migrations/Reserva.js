@@ -58,7 +58,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       fk_Id_User: {
-        type: Sequelize.TEXT,
+        type: Sequelize.UUID,
         references: {
           model: 'User',
           key: 'Cpf',
