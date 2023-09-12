@@ -1,9 +1,10 @@
 const { UserModel } = require('../../model/UsuarioModel');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const cpf = require('cpf');
+require('dotenv').config();
 const validator = require('validator'); // Importe a biblioteca validator
 
-const jwtSecret = 'suaChaveSecreta';
 
 class CreateUserController {
   async CreateUser(request, response) {
@@ -50,22 +51,31 @@ class CreateUserController {
         });
       }
 
+      // Criptografia senha
+      const SenhaHashed = await bcrypt.hash(
+        Senha,
+        Number(process.env.SALT)
+      );
+
+
       // Criando a User
       const newUser = await UserModel.create({
         Cpf,
         Nome,
         Cep,
-        Senha,
+        Senha: SenhaHashed,
         Email,
         FormacaoAcademica,
         TempoDeCurso,
         Especializacao,
       });
 
-      // Criando um token JWT para o CPF cadastrado
-      const token = jwt.sign({ Cpf }, jwtSecret, { expiresIn: '1h' });
-
-      return response.status(201).json({ newUser, token });
+      const accessToken = jwt.sign(
+                { Cpf: newUser.Cpf },
+                process.env.TOKEN_SECRET,
+                { expiresIn: '1h' }
+      );
+      return response.status(201).json({ newUser, accessToken });
     } catch (error) {
       return response.status(500).json({
         error: `Erro interno: ${error}`,

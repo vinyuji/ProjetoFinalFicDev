@@ -1,6 +1,6 @@
 const { ReservaModel } = require('../../model/ReservaModel');
 
-// Listar Sala por idSala
+// Listar Sala por idReserva
 class GetReservaController {
   async GetReserva(req, res) {
     try {
