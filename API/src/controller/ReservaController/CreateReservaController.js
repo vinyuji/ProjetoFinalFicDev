@@ -5,10 +5,10 @@ const { ReservaModel } = require('../../model/ReservaModel');
 class CreateReservaController {
     async CreateReserva (request, response) {
     try {
-        const { Sala, FuncaoSala, NumeroSala, DataReserva, Capacidade, PessoaReservista, Status } = request.body;
+        const { Sala, FuncaoSala, NumeroSala, DataReserva, Capacidade, PessoaReservista, Status, IdSala } = request.body;
 
         // verifica se todos os parametros importantes foram preenchidos
-        if( !Sala || !FuncaoSala || !NumeroSala || !DataReserva || !Capacidade || !PessoaReservista || !Status){
+        if( !Sala || !FuncaoSala || !NumeroSala || !DataReserva || !Capacidade || !PessoaReservista || !Status || !IdSala){
             return response.status(400).json({
                 error: 'Parametros não atendidos'
             });
@@ -23,6 +23,7 @@ class CreateReservaController {
             Capacidade,
             PessoaReservista,
             Status,
+            IdSala,
         });
 
         return response.status(201).json( Func );

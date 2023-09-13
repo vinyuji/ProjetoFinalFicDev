@@ -38,7 +38,7 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       fk_Reserva_IdReserva: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Reserva',
           key: 'IdReserva',

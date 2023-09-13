@@ -43,7 +43,7 @@ module.exports = {
           defaultValue: Sequelize.NOW,
       },
       fk_Reserva_IdReserva: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Reserva',
           key: 'IdReserva',

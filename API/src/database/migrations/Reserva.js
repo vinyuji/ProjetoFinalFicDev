@@ -9,8 +9,8 @@ module.exports = {
       IdReserva: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        allowNull: false,
-        allowNull:false
+        autoIncrement: true,
+        allowNull: false
       },
       Sala: {
         type: Sequelize.TEXT,
@@ -44,7 +44,8 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       IdSala: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
+        allowNull:false,
       },
       updatedAt: {
         type: Sequelize.DATE,

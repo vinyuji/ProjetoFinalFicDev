@@ -8,8 +8,8 @@ class ReservaModel extends Model {
       IdReserva: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        allowNull: false,
-        autoIncrement:true
+        autoIncrement: true,
+        allowNull: false
       },
         Sala: DataTypes.TEXT,
         FuncaoSala: DataTypes.TEXT,
@@ -19,7 +19,7 @@ class ReservaModel extends Model {
         PessoaReservista: DataTypes.TEXT,
         Status: DataTypes.TEXT,
         Cpf: DataTypes.TEXT,
-        IdSala: DataTypes.UUID,
+        IdSala: DataTypes.INTEGER,
       },{
         timestamps: true,
         sequelize: database,

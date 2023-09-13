@@ -4,7 +4,7 @@ const { UserModel } = require('../../model/UsuarioModel');
 class UpdateUserDadosController {
   async UpdateUserDados(req, res) {
     const { Cpf } = req.params; // Obtenha o CPF dos parâmetros da URL
-    const { Nome, Cep, Senha, Email } = req.body; // Obtenha os novos dados do corpo da solicitação
+    const { Nome, Cep, Email } = req.body; // Obtenha os novos dados do corpo da solicitação
 
     try {
       // Verifique se o CPF foi fornecido na URL
@@ -23,7 +23,6 @@ class UpdateUserDadosController {
       // Atualize os dados do usuário com os novos dados fornecidos
       user.Nome = Nome;
       user.Cep = Cep;
-      user.Senha = Senha;
       user.Email = Email;
       
       await user.save(); // Salve as alterações no banco de dados
