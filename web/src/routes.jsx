@@ -1,8 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-
-import { Login } from "./pages/Login";
-
 import { isAuthenticated } from './utils/is-authenticated';
+
+import { Sala } from './pages/salas/Index';
 
 export function PrivateRoute({ children }) {
     if (!isAuthenticated()) {
@@ -15,7 +14,7 @@ export function Navigations() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route />
+            <Route index path='/createSala' element={<Sala />} />
             </Routes>
         </BrowserRouter>
     )

@@ -1,5 +1,9 @@
-import { Navigations } from './routes';
 
-export default function App() {
-    return <Navigations />
+import { Navigations  } from './routes.jsx';
+
+
+export function App() {
+ return(
+  <Navigations />
+ );
 }
