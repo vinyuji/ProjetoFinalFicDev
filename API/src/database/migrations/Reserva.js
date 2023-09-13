@@ -7,10 +7,10 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Reserva', {
       IdReserva: {
-        type: Sequelize.UUID,
-        defaultValeu: Sequelize.UUIDV4,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
+        allowNull:false
       },
       Sala: {
         type: Sequelize.TEXT,

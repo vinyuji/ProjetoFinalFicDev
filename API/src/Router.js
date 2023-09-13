@@ -26,27 +26,26 @@ const UpdateSalaController = require('./controller/SalaController/UpdateSalaCont
 
 const { authMiddleware } = require('./middleware/auth-middleware');
 // Criando Rotas
-
 // User
 routes.post('/createUser', CreateUserController.CreateUser);
 routes.post('/findUser', authMiddleware, GetUserController.GetUser);
 routes.delete('/delUser', authMiddleware, DeleteUserController.DeleteUser);
-routes.post('/upDadosUser', authMiddleware, UpdateUserDadosController.UpdateUserDados);
-routes.post('/upFormacaoUser', authMiddleware, UpdateUserFormacaoController.UpdateUserFormacao);
-routes.post('/upSenhaUser', authMiddleware,  UpdateUserSenhaController.UpdatePassword);
+routes.put('/upDadosUser', authMiddleware, UpdateUserDadosController.UpdateUserDados);
+routes.put('/upFormacaoUser', authMiddleware, UpdateUserFormacaoController.UpdateUserFormacao);
+routes.put('/upSenhaUser', authMiddleware,  UpdateUserSenhaController.UpdatePassword);
 routes.post('/LoginUser', LoginUserController.LoginUser);
 
 // Reserva
 routes.post('/createReserva', authMiddleware, CreateReservaController.CreateReserva);
 routes.post('/findReserva', authMiddleware,  GetReservaController.GetReserva);
 routes.delete('/delReserva', authMiddleware, DeleteReservaController.DeleteReserva);
-routes.post('/upReserva', authMiddleware, UpdateReservaController.UpdateReserva);
+routes.put('/upReserva/:id', authMiddleware, UpdateReservaController.UpdateReserva);
 
 // Sala
 routes.post('/createSala', authMiddleware, CreateSalaController.CreateSala);
 routes.post('/findSala', authMiddleware, GetSalaController.GetSala);
 routes.delete('/delSala', authMiddleware, DeleteSalaController.DeleteSala);
-routes.post('/upSala', authMiddleware, UpdateSalaController.UpdateSala);
+routes.put('/upSala', authMiddleware, UpdateSalaController.UpdateSala);
 
 
 module.exports = { routes };

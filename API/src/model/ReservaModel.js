@@ -6,10 +6,10 @@ class ReservaModel extends Model {
   static init(database){
     super.init({
       IdReserva: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
-        defaultValue: DataTypes.UUIDV4,
+        autoIncrement:true
       },
         Sala: DataTypes.TEXT,
         FuncaoSala: DataTypes.TEXT,

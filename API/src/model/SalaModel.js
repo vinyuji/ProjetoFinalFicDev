@@ -6,11 +6,10 @@ class SalaModel extends Model {
   static init(database){
     super.init({
       IdSala: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
-        defaultValue: DataTypes.UUIDV4,
       },
         NomeSala: DataTypes.TEXT,
         Funcao: DataTypes.TEXT,

@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const { UsuarioModel } = require('../../model/UsuarioModel');
+const { UserModel } = require('../../model/UsuarioModel');
 
 /* Entra com o usuário e retorna um token de acesso */
 class LoginUserController {
@@ -16,11 +16,13 @@ class LoginUserController {
                     error: 'Email e senha são obrigatórios!'
                 });
             }
+            console.log("ok parametros", Senha);
 
             // Verifica se usuário existe
-            const ExistingUser = await UsuarioModel.findOne({
+            const ExistingUser = await UserModel.findOne({
                 where: { Email }
             });
+            console.log("ok exites", Email);
 
             if (!ExistingUser) {
                 return response.status(400).json({
@@ -39,7 +41,7 @@ class LoginUserController {
 
             // Gera e retorna o access token
             const accessToken = jwt.sign(
-                { id: UsuarioExiste.CPF },
+                { id: ExistingUser.CPF },
                 process.env.TOKEN_SECRET,
                 { expiresIn: '1h' }
             );
