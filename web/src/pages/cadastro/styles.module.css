@@ -1,4 +1,75 @@
-*{
+* {
     margin: 0;
     border: 0;
 }
+
+.tudo {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.direita {
+    background-color: rgb(255, 255, 255);
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.esquerda {
+    background-color: #1A3281; 
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo{
+    display: flex;
+}
+.logo h1{
+    width: 18vh;
+    margin-left: 1vw;
+    color: white;
+}
+.logo h2{
+    width: 18vh;
+    margin-left: 1vw;
+    color: white;
+}
+.login h1{
+    margin-bottom: 10vh;
+    display: flex;
+    justify-content: center;
+}
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.personalizada {
+    margin-bottom: 3vh;
+    border: 2px solid #1A3281;
+    border-radius: 10px; 
+    width: 20vw;
+    height: 5vh;
+}
+.Entrar{
+    background-color: #1A3281;
+    color: white;
+    width: 20vw;
+    height: 5vh;
+    margin-bottom: 3vh;
+}
+.cadastro button{
+    background-color: white;
+}
+.cadastro {
+    display: flex;
+    justify-content: center;
+}
+
+
