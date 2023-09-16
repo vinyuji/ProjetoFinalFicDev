@@ -2,3 +2,23 @@
     margin: 0;
     border: 0;
 }
+.esquerda{
+    background-color: #1A3281;
+    width: 18vw;
+    height: 100vh;
+}
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo img{
+    margin-top: 4vw;
+}
+.logo h1{
+    margin-top: 4vw;
+    color: white;
+}
+.logo h2{
+    color: white;
+}
