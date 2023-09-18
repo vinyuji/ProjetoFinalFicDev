@@ -2,3 +2,38 @@
     margin: 0;
     border: 0;
 }
+.tudo{
+    display: flex;
+}
+.direita{
+    width: 72vw;
+}
+.header h1{
+    margin-left: 3vw;
+    margin-top:  7vh;
+    color: black;
+}
+.linha1{
+    margin-left: 1vw;
+    margin-top: 3vh;
+    width: 80vw;
+    border-bottom: 2px solid black;
+}
+.informacoes{
+    margin-top: 2vh;
+    width: 70vw;
+    margin-left: 1vw;
+    display: flex;
+    align-items: center;
+}
+.informacoes h2{
+    margin-right: 2vw;
+}
+.Extra{
+    margin-left: 1vw;
+    display: flex;
+    align-items: center;
+}
+.Extra h2{
+    margin-right: 2vw;
+}

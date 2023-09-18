@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles.module.css';
-import imagem from '../login/imagem.png';
+import imagem from '../../utils/Esquerda/imagem.png';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 const API_URL = 'http://localhost:8080';

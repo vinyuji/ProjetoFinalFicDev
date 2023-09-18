@@ -1,28 +1,30 @@
 import React from 'react';
 import styles from './styles.module.css';
-import imagem from '../login/imagem.png';
+import { Link } from "react-router-dom";
+import { Esquerda } from '../../utils/Esquerda/Esqueda'
 export function Home() {
 
   return (
     <div className={styles.tudo}>
-      <div className={styles.esquerda}>
-        <div className={styles.logo}>
-          <img src={imagem} alt="Sem foto" width={ 60 } />
-          <div className={styles.nome}>
-            <h1>Gestao</h1>
-            <h2>de Sala</h2>
-          </div>
-        </div>
-        <div className={styles.opcoes}>
-
-
-        </div>
-      </div>
+      <Esquerda></Esquerda>
       <div className={styles.direita}>
+        <div className={styles.header}>
+          <h1>Notificacoes</h1>
+          <div className={styles.linha1}></div>
+        </div>
+        <div className={styles.notif}>
+  
 
-          
+  
+        </div>
+        <div className={styles.rodape}>
+          <Link to="/Reserva">
+            <button>
+              <h2>Listar salas Reservadas</h2>
+            </button>
+          </Link>
+        </div>
       </div>
-
     </div>
   );
 }

@@ -2,6 +2,9 @@
     margin: 0;
     border: 0;
 }
+.tudo{
+    display: flex;
+}
 .esquerda{
     background-color: #1A3281;
     width: 18vw;
@@ -13,12 +16,79 @@
     align-items: center;
 }
 .logo img{
-    margin-top: 4vw;
+    margin-top: 3vw;
 }
 .logo h1{
-    margin-top: 4vw;
+    margin-top: 3vw;
     color: white;
 }
 .logo h2{
     color: white;
+}
+.linha{
+    margin-left: 1vh;
+    margin-top: 3vw;
+    width: 17vw;
+    border-bottom: 1px solid white;
+}
+.menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-top: 5vh;
+    margin-bottom: 10vh;
+}
+.opcoes h2{
+    margin-left: 2vw;
+    margin-bottom: 5vh;
+    color: white;
+}
+.Sair{
+    margin-top: 17vh;
+    margin-left: 2vw;
+    display: flex;
+    align-items: center;
+}
+.Sair h2{
+    color: white;
+    margin-left: 0.4vw;
+}
+.direita{
+    width: 72vw;
+}
+.header h1{
+    margin-left: 3vw;
+    margin-top:  7vh;
+    color: black;
+}
+.linha1{
+    margin-left: 1vw;
+    margin-top: 3vh;
+    width: 80vw;
+    border-bottom: 2px solid black;
+}
+.rodape{
+    display: flex;
+    justify-content: center;
+}
+.rodape button{
+    justify-content: center;
+    margin-top: 1vh;
+    margin-left: 10vw;
+    width: 30vw;
+    height: 6vh;
+    border-radius: 10px;
+    background-color: #1A3281;
+}
+.rodape h2{
+    color: white;
+}
+.notif{
+    margin-left: 1vw;
+    margin-top: 3vh;
+    width: 80vw;
+    height: 70vh;
+    border-radius: 10px;
+    border: 2px solid #1A3281;
 }

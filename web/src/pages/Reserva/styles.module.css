@@ -2,13 +2,12 @@
     margin: 0;
     border: 0;
 }
-
 .tudo{
     display: flex;
 }
-.tudo button {
-    cursor: pointer; /* O cursor se transforma em uma mão */
-  }
+.direita{
+    width: 72vw;
+}
 .header h1{
     margin-left: 3vw;
     margin-top:  7vh;
@@ -25,7 +24,6 @@
     justify-content: space-between;
     align-items: center;
     margin-left: 5vw;
-    margin-right: 5vw;
     margin-top: 5vh;
 }
 .pesquisa{
@@ -46,20 +44,22 @@
     height: 5vh;
     width: 10vw;
 }
-.cadSala{
+.ReservaSala{
     height: 5vh;
     width: 30vw;
 }
-.cadSala button{
+.ReservaSala button{
     align-items: center;
     border-radius: 10px;
+    margin-left: 4vw;
     background-color: #1A3281;
     height: 5vh;
     width: 30vw;
 }
-.cadSala h3{
+.ReservaSala h3{
     width: 30vw;
     height: 4vh;
+    margin-bottom: 4vh;
     color: white;
 }
 .lista{
