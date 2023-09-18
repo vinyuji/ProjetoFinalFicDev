@@ -9,7 +9,6 @@ class SalaModel extends Model {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        allowNull: false,
       },
         NomeSala: DataTypes.TEXT,
         Funcao: DataTypes.TEXT,

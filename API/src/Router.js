@@ -42,8 +42,8 @@ routes.delete('/delReserva', authMiddleware, DeleteReservaController.DeleteReser
 routes.put('/upReserva', authMiddleware, UpdateReservaController.UpdateReserva);
 
 // Sala
-routes.post('/createSala', authMiddleware, CreateSalaController.CreateSala);
-routes.post('/findSala', authMiddleware, GetSalaController.GetSala);
+routes.post('/createSala', CreateSalaController.CreateSala);
+routes.post('/findSala', GetSalaController.GetSala);
 routes.delete('/delSala', authMiddleware, DeleteSalaController.DeleteSala);
 routes.put('/upSala', authMiddleware, UpdateSalaController.UpdateSala);
 

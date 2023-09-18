@@ -64,9 +64,10 @@
 }
 .lista{
     margin-top: 5vh;
+    margin-left: 3vw;
     display: flex;
     width: 80vw;
     justify-content: space-between;
     padding-left: 3vw;
-    padding-right: 6vw;
+    padding-right: 5vw;
 }
