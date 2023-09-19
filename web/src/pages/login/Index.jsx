@@ -1,22 +1,89 @@
-import React from 'react';
+import { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import styles from './styles.module.css';
-import imagem from '../../utils/Esquerda/imagem.png'; 
-import { Link } from "react-router-dom";
+import { Input } from "../../components/Input";
+import imagem from "../../utils/Esquerda/imagem.png";
+import { loginUser } from '../../services/user-services';
 
 export function Login() {
+  const navigate = useNavigate();
+  const { handleSubmit, register, formState: { errors } } = useForm();
+  const [result, setResult] = useState(null);
 
+  const onSubmit = async (data) => {
+    try {
+      const user = await loginUser(data);
+      console.log(user)
+      console.log(user.data.accessToken)
+      if (user) {
+        sessionStorage.setItem('token', user.data.accessToken);
+        navigate('/Home');
+      } else {
+        setResult('Erro de autenticação');
+      }
+    } catch (error) {
+      setResult('Erro ao fazer login');
+      console.error('Erro ao fazer login:', error);
+    }
+  }
 
   return (
     <div className={styles.tudo}>
       <div className={styles.esquerda}>
         <div className={styles.login}>
           <h1>LOGIN</h1>
-              <button type="submit" className={styles.Entrar}>Entrar</button>
-            <div className={styles.cadastro}>
-              <button>
-                <Link to="/Cadastro">Não possui cadastro? Clique aqui</Link>
-              </button>
-            </div>
+          <Form
+            noValidate
+            validated={!!errors}
+            onSubmit={handleSubmit(onSubmit)}
+            className="white rounded p-5 w-100 m-auto"
+          >
+              <Input
+                className="mb-4"
+                label="E-mail"
+                type="text"
+                placeholder="Insira seu e-mail"
+                error={errors.email}
+                required={true}
+                name="Email"
+                validations={register('Email', {
+                  required: {
+                    value: true,
+                    message: 'E-mail é obrigatório'
+                  },
+                  pattern: {
+                    value: /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i,
+                    message: 'E-mail inválido!'
+                  }
+                })}
+              />
+              <Input
+                className="mb-4"
+                label="Senha"
+                type="password"
+                placeholder="Insira sua senha"
+                error={errors.password}
+                required={true}
+                name="Senha"
+                validations={register('Senha', {
+                  required: {
+                    value: true,
+                    message: 'Senha é obrigatório'
+                  }
+                })}
+              />
+              <div className="d-flex justify-content-between">
+                <Button type="submit" className="w-100">Entrar</Button>
+              </div>
+          </Form>
+          {result && <div className="mt-3 text-danger">{result}</div>}
+          <div className={styles.cadastro}>
+            <button>
+              <Link to="/Cadastro">Não possui cadastro? Clique aqui</Link>
+            </button>
+          </div>
         </div>
       </div>
       <div className={styles.direita}>
@@ -31,10 +98,3 @@ export function Login() {
     </div>
   );
 }
-
-
-
-
-
-
-

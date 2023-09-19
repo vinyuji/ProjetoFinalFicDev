@@ -21,10 +21,25 @@ export function Navigations() {
             <Routes>
                 <Route index path='/' element={<Login />}/>
                 <Route path='/Cadastro' element={<Cadastro />}/>
-                <Route path='/Home' element={<Home />}/>
-                <Route path='/Reserva' element={<Reserva />}/>
-                <Route path='/Perfil' element={<Perfil />}/>
-                <Route path='/Sala' element={<Sala />}/>
+                <Route path='/Reserva' element={
+                <PrivateRoute>
+                    <Reserva />
+                </PrivateRoute>}/>
+                <Route path='/Perfil' element={
+                <PrivateRoute>
+                    <Perfil />
+                </PrivateRoute>
+                }/>
+                <Route path='/Sala' element={
+                    <PrivateRoute>
+                        <Sala />
+                    </PrivateRoute>
+                }/>
+                <Route path="/Home" element={
+                        <PrivateRoute>
+                            <Home />
+                        </PrivateRoute>
+                    } />
             </Routes>
         </BrowserRouter>
     )

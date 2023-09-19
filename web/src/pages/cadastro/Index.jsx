@@ -1,74 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles.module.css';
 import imagem from '../../utils/Esquerda/imagem.png';
-import { Link } from "react-router-dom";
-import { useState, useEffect } from 'react';
-const API_URL = 'http://localhost:8080';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { Button, Col, Form } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
+
+import { Input } from '../../components/Input';
+import { registerUser } from '../../services/user-services';
 
 export function Cadastro() {
-  const [users, setUsers] = useState([]);
-  const [novoUser, setNovoUser] = useState({
-    Nome: '',
-    Email: '',
-    Cpf: '',
-    Cep: '',
-    Senha: '',
-    ConfiSenha: '',
-  });
+  const navigate = useNavigate();
+  const { handleSubmit, register, formState: { errors } } = useForm();
+  const [result, setResult] = useState(null);
 
-  useEffect(() => {
-    getUsers();
-  }, []);
+  async function onSubmit(data) {
+    console.log(data);
+  try {
 
-  async function getUsers() {
-    try {
-      const result = await fetch(`${API_URL}/findUser`, { method: 'GET' });
-      const userData = await result.json();
-      setUsers(userData);
-    } catch (error) {
-      console.error(error);
-    }
+      const user = await registerUser(data);
+      setResult(user);
+      console.log(result)
+        if (user) {
+          sessionStorage.setItem('token', user.data.accessToken);
+          navigate('/Home');
+        } else {
+          setResult('Erro de cadastro');
+        }
+      } 
+      catch (error) {
+      setResult('Erro ao fazer cadastro');
+      console.error('Erro ao fazer cadastro:', error);
   }
+}
 
-  async function createUser() {
-    try {
-      if (!novoUser.Nome || !novoUser.Email || !novoUser.Cpf || !novoUser.Cep || !novoUser.Senha || !novoUser.ConfiSenha) {
-        alert('Preencha todos os campos');
-        return;
-      }
-      if (novoUser.Senha !== novoUser.ConfiSenha) {
-        alert('Confirmação de senha incorreta');
-        return;
-      }
-      console.log("senha foi");
-      
-      const result = await fetch(`${API_URL}/createUser`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(novoUser),
-      });
-      console.log("Criar foi");
-
-      const novoUserData = await result.json();
-      if (result.status === 201) {
-        alert('Usuário criado com sucesso!');
-        setNovoUser({ Nome: '', Email: '', Cpf: '', Cep: '', Senha: '', ConfiSenha: '' });
-        setUsers([...users, novoUserData]);
-      } else {
-        alert(novoUserData.error);
-      }
-      
-    } catch (error) {
-      console.error(error);
-    }
-  }
   return (
     <div className={styles.tudo}>
       <div className={styles.esquerda}>
         <div className={styles.logo}>
-          <img src={imagem} alt="Sem foto" width={ 60 } />
+          <img src={imagem} alt="Sem foto" width={60} />
           <div className={styles.nome}>
             <h1>Gestao</h1>
             <h2>de Sala</h2>
@@ -78,76 +48,95 @@ export function Cadastro() {
       <div className={styles.direita}>
         <div className={styles.login}>
           <h1>Cadastro</h1>
-          <form>
-          <div class="form-group">
-            <input 
-              className={ styles.personalizada }
-              type="text" 
-              placeholder="Digite o Nome"
-              value={novoUser.Nome}
-              onChange={(e) => setNovoUser({ ...novoUser, Nome: e.target.value })}
-            />
-            </div>
-            <div class="form-group">
-            <input 
-              className={ styles.personalizada }
-              type="email" 
-              placeholder="Digite o E-mail"
-              value={novoUser.Email}
-              onChange={(e) => setNovoUser({ ...novoUser, Email: e.target.value })}
-            />
-            </div>
-            <div class="form-group">
-            <input 
-              className={ styles.personalizada }
-              type="text" 
-              placeholder="Digite o Cpf"
-              value={novoUser.Cpf}
-              onChange={(e) => setNovoUser({ ...novoUser, Cpf: e.target.value })}
-            />
-            </div>
-            <div class="form-group">
-            <input 
-              className={ styles.personalizada }
-              type="text" 
-              placeholder="Digite o Cep"
-              value={novoUser.Cep}
-              onChange={(e) => setNovoUser({ ...novoUser, Cep: e.target.value })}
-            />
-            </div>
-            <div class="form-group">
-            <input 
-              className={ styles.personalizada }
-              type="password" 
-              placeholder="Digite a Senha"
-              value={novoUser.Senha}
-              onChange={(e) => setNovoUser({ ...novoUser, Senha: e.target.value })}/>
-            </div>
-            <div class="form-group">
-            <input 
-              className={ styles.personalizada }
-              type="password" 
-              placeholder="Confirmar Senha"
-              value={novoUser.ConfiSenha}
-              onChange={(e) => setNovoUser({ ...novoUser, ConfiSenha: e.target.value })}/>
-            </div>
-            
-              <button type="submit" onClick={createUser}   class={styles.Entrar}>Cadastrar</button>
-      
-            <div className={styles.cadastro}>
-              <button>
-                <Link to = "/"> já  possui  Login?  Clique  aqui</Link>
-              </button>
-            </div>
-          </form>
+          <Form
+            noValidate
+            validated={!!errors}
+            onSubmit={handleSubmit(onSubmit)}
+            className="white rounded p-5  w-100 m-auto"
+          >
+            <Col>
+              <Input
+                className="mb-4"
+                label="Nome"
+                type="text"
+                placeholder="Digite o Nome"
+                error={errors.Nome}
+                required={true}
+                name="Nome"
+                validates = {register('Nome', {
+                  // value: true,
+                  // required: 'Nome é obrigatório',
+                })}
+              />
+              <Input
+                className="mb-4"
+                label="E-mail"
+                type="text"
+                placeholder="Digite o E-mail"
+                error={errors.Email}
+                required={true}
+                name="Email"
+                {...register('Email', {
+                  value: true,
+                  required: 'E-mail é obrigatório',
+                  pattern: {
+                    value: /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i,
+                    message: 'E-mail inválido!',
+                  },
+                })}
+              />
+              <Input
+                className="mb-4"
+                label="Cpf"
+                type="text"
+                placeholder="Digite o Cpf"
+                error={errors.Cpf}
+                required={true}
+                name="Cpf"
+                {...register('Cpf', {
+                  value: true,
+                  required: 'Cpf é obrigatório',
+                })}
+              />
+              <Input
+                className="mb-4"
+                label="Cep"
+                type="text"
+                placeholder="Digite o Cep"
+                error={errors.Cep}
+                required={true}
+                name="Cep"
+                {...register('Cep', {
+                  value: true,
+                  required: 'Cep é obrigatório',
+                })}
+              />
+              <Input
+                className="mb-4"
+                label="Senha"
+                type="password"
+                placeholder="Digite a Senha"
+                error={errors.Senha}
+                required={true}
+                name="Senha"
+                {...register('Senha', {
+                  value: true,
+                  required: {
+                    message: 'Senha é obrigatório'
+                  }
+                })}
+              />
+              <div className="d-flex flex-direction-column">
+                <Button type="submit" className="w-100">Criar</Button>
+              </div>
+              <div className={styles.likedin}>
+              <Link to="/" >Já tenho uma conta</Link>
+              </div>
+              
+            </Col>
+          </Form>
         </div>
       </div>
     </div>
   );
 }
-
-
-
-
-
-

@@ -4,7 +4,7 @@ const { SalaModel } = require('../../model/SalaModel');
 class GetSalaController {
   async GetSala(req, res) {
     try {
-      const { IdSala } = req.body;
+      const { IdSala } = req.params;
 
       if (!IdSala) {
         return res.status(400).json({ error: 'O parâmetro idSala é obrigatório' });

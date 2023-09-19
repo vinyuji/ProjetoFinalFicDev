@@ -43,6 +43,11 @@
     display: flex;
     justify-content: center;
 }
+.login input{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
 .personalizada {
     margin-bottom: 3vh;
     border: 2px solid #1A3281;

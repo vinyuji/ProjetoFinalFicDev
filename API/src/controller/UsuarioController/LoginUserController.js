@@ -45,7 +45,7 @@ class LoginUserController {
                 process.env.TOKEN_SECRET,
                 { expiresIn: '1h' }
             );
-
+            console.log("ok", accessToken)
             return response.status(200).json({ accessToken });
         } catch (error) {
             return response.status(500).json({

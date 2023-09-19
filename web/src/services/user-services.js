@@ -2,11 +2,9 @@ import { api } from './api'
 
 export async function registerUser(data) {
     try {
-        await api.post('/register', data);
-        return {
-            title: 'Sucesso!',
-            message: 'Usuário cadastrado!'
-        }
+        const result = await api.post('/createUser', data);
+        console.log("result: ", result);
+        return result
     } catch (error) {
         return {
             title: 'Houve um erro no cadastro!',
@@ -17,11 +15,9 @@ export async function registerUser(data) {
 
 export async function loginUser(data) {
     try {
-        await api.post('/login', data);
-        return {
-            title: 'Sucesso!',
-            message: 'Usuário entrou!'
-        }
+        const result = await api.post('/LoginUser', data);
+        console.log("result: ", result);
+        return result
     } catch (error) {
         return {
             title: 'Houve um erro no login!',

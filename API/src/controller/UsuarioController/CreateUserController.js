@@ -11,13 +11,13 @@ class CreateUserController {
     try {
       const { Cpf, Nome, Cep, Senha, Email, FormacaoAcademica, TempoDeCurso, Especializacao } = request.body;
 
+      console.log(Cpf)
       // Verifica se todos os parâmetros importantes foram preenchidos
       if (!Cpf || !Nome || !Cep || !Senha || !Email) {
         return response.status(400).json({
           error: 'Parâmetros não atendidos',
         });
       }
-
       // Verifica se o CPF fornecido é válido
       if (!cpf.isValid(Cpf)) {
         return response.status(400).json({
@@ -75,7 +75,8 @@ class CreateUserController {
                 process.env.TOKEN_SECRET,
                 { expiresIn: '1h' }
       );
-      return response.status(201).json({ newUser, accessToken });
+      console.log(accessToken);
+      return response.status(201).json({ accessToken });
     } catch (error) {
       return response.status(500).json({
         error: `Erro interno: ${error}`,

@@ -6,6 +6,9 @@
 .tudo{
     display: flex;
 }
+.direita{
+    width: 78vw;
+}
 .tudo button {
     cursor: pointer; /* O cursor se transforma em uma mão */
   }

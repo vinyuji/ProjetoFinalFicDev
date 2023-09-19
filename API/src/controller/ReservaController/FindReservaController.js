@@ -4,7 +4,7 @@ const { ReservaModel } = require('../../model/ReservaModel');
 class GetReservaController {
   async GetReserva(req, res) {
     try {
-      const { IdReserva } = req.body;
+      const { IdReserva } = req.params;
 
       if (!IdReserva) {
         return res.status(400).json({ error: 'O parâmetro IdReserva é obrigatório' });

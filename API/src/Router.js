@@ -24,6 +24,7 @@ const GetSalaController = require('./controller/SalaController/FindSalaControlle
 const DeleteSalaController = require('./controller/SalaController/DeleteSalaController');
 const UpdateSalaController = require('./controller/SalaController/UpdateSalaController');
 
+
 const { authMiddleware } = require('./middleware/auth-middleware');
 // Criando Rotas
 // User
@@ -37,13 +38,13 @@ routes.post('/LoginUser', LoginUserController.LoginUser);
 
 // Reserva
 routes.post('/createReserva', authMiddleware, CreateReservaController.CreateReserva);
-routes.post('/findReserva', authMiddleware,  GetReservaController.GetReserva);
+routes.post('/findReserva/:IdReserva', authMiddleware,  GetReservaController.GetReserva);
 routes.delete('/delReserva', authMiddleware, DeleteReservaController.DeleteReserva);
 routes.put('/upReserva', authMiddleware, UpdateReservaController.UpdateReserva);
 
 // Sala
 routes.post('/createSala', CreateSalaController.CreateSala);
-routes.post('/findSala', GetSalaController.GetSala);
+routes.post('/findSala/:IdSala', GetSalaController.GetSala);
 routes.delete('/delSala', authMiddleware, DeleteSalaController.DeleteSala);
 routes.put('/upSala', authMiddleware, UpdateSalaController.UpdateSala);
 

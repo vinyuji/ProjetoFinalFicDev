@@ -18,6 +18,7 @@ export function Sala() {
     Capacidade: '',
   });
   const [salas, setSalas] = useState([]);
+  const [searchId, setSearchId] = useState('');
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -48,7 +49,7 @@ export function Sala() {
       if (response.status === 201) {
         alert('Sala cadastrada com sucesso!');
         setIsModalOpen(false);
-        fetchSalas(); // Atualiza a lista de salas após o cadastro
+        fetchSalas();
       } else {
         alert('Ocorreu um erro ao cadastrar a sala.');
       }
@@ -72,6 +73,53 @@ export function Sala() {
     }
   }
 
+  async function fetchSalaById(id) {
+    try {
+      const response = await fetch(`${API_URL}/findSala/:${id}`);
+      if (response.status === 200) {
+        const data = await response.json();
+        setSalas([data]);
+      } else if (response.status === 404) {
+        console.error('Sala não encontrada.');
+      } else {
+        console.error('Ocorreu um erro ao buscar a sala.');
+      }
+    } catch (error) {
+      console.error('Ocorreu um erro ao buscar a sala por ID', error);
+    }
+  }
+
+  async function handleSearchClick() {
+    if (!searchId) {
+      alert('Por favor, insira um ID de sala válido.');
+      return;
+    }
+    await fetchSalaById(searchId);
+  }
+
+  async function handleDeleteClick(id) {
+    if (!window.confirm('Tem certeza de que deseja excluir esta sala?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/deleteSala/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.status === 200) {
+        alert('Sala excluída com sucesso!');
+        fetchSalas();
+      } else if (response.status === 404) {
+        console.error('Sala não encontrada.');
+      } else {
+        console.error('Ocorreu um erro ao excluir a sala.');
+      }
+    } catch (error) {
+      console.error('Ocorreu um erro ao excluir a sala', error);
+    }
+  }
+
   useEffect(() => {
     fetchSalas();
   }, []);
@@ -87,8 +135,13 @@ export function Sala() {
 
         <div className={styles.Pesq}>
           <div className={`${styles.pesquisa} bootstrap-form`}>
-            <input type="text" placeholder='Pesquisar por Id' />
-            <button type='submit'>
+            <input
+              type="text"
+              placeholder='Pesquisar por Id'
+              value={searchId}
+              onChange={(e) => setSearchId(e.target.value)}
+            />
+            <button type='button' onClick={handleSearchClick}>
               <img src={Lupa} alt="sem foto" width={30} />
             </button>
           </div>
@@ -106,22 +159,21 @@ export function Sala() {
         </div>
         <div className={styles.linha1}></div>
         {salas.map((sala) => (
-              <div key={sala.IdSala}>
-                <p>{sala.NomeSala}</p>
-                <p>{sala.Funcao}</p>
-                <p>{sala.Criador}</p>
-                <p>{sala.Capacidade}</p>
-              </div>
-            ))}
+          <div key={sala.IdSala}>
+            <p>{sala.NomeSala}</p>
+            <p>{sala.Funcao}</p>
+            <p>{sala.Criador}</p>
+            <p>{sala.Capacidade}</p>
+            <button type="button" onClick={() => handleDeleteClick(sala.IdSala)}>Excluir</button>
+          </div>
+        ))}
       </div>
 
-      {/* Modal do Bootstrap */}
       <Modal show={isModalOpen} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>Cadastro de Sala</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* Formulário de cadastro da sala */}
           <form>
             <div className="mb-3">
               <label htmlFor="NomeSala" className="form-label">Nome da Sala</label>
