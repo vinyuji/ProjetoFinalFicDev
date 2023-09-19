@@ -39,35 +39,38 @@
     margin-left: 1vw;
     color: white;
 }
-.login h1{
+.cadastro h1{
     margin-bottom: 10vh;
     display: flex;
     justify-content: center;
 }
-.login {
+.cadastro {
     display: flex;
     justify-content: center;
-    align-items: center;
+
     flex-direction: column;
 }
 .personalizada {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.personalizada input {
     margin-bottom: 3vh;
     border: 2px solid #1A3281;
     border-radius: 10px; 
     width: 20vw;
     height: 5vh;
 }
-.Entrar{
-    background-color: #1A3281;
+.Cadastrar button{
+    background-color: #1A3281 !important;
     border-radius: 10px;
     color: white;
     width: 20vw;
     height: 5vh;
     margin-bottom: 3vh;
 }
-.cadastro button{
-    background-color: white;
-}
+
 .cadastro {
     display: flex;
     justify-content: center;

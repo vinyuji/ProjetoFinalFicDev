@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import styles from './styles.module.css';
-import { Esquerda } from '../../utils/Esquerda/Esqueda';
-import Lupa from '../../utils/lupa.png';
+import { Esquerda } from '../../components/Esquerda/Esqueda';
+import Lupa from '../../components/lupa.png';
 
 export function Reserva() {
   const [novaSala, setNovaSala] = useState({
@@ -51,13 +51,11 @@ export function Reserva() {
           <h2>Estado</h2>
         </div>
         <div className={styles.linha1}></div>
-        {/* Modal do Bootstrap */}
         <Modal show={isModalOpen} onHide={handleCloseModal} centered>
           <Modal.Header closeButton>
             <Modal.Title>Cadastro de Sala</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {/* Adicione os campos do formulário de cadastro da sala aqui */}
             <form>
               <div className="mb-3">
                 <label htmlFor="nomeSala" className="form-label">Nome da Sala</label>
@@ -81,7 +79,6 @@ export function Reserva() {
                   onChange={(e) => setNovaSala({ ...novaSala, Funcao: e.target.value })}
                 />
               </div>
-              {/* Adicione mais campos conforme necessário */}
             </form>
           </Modal.Body>
           <Modal.Footer>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
 import { Link } from "react-router-dom";
-import { Esquerda } from '../../utils/Esquerda/Esqueda'
+import { Esquerda } from '../../components/Esquerda/Esqueda';
 export function Home() {
 
   return (

@@ -1,8 +1,8 @@
 // Sala.jsx
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
-import { Esquerda } from '../../utils/Esquerda/Esqueda';
-import Lupa from '../../utils/lupa.png';
+import { Esquerda } from '../../components/Esquerda/Esqueda';
+import Lupa from '../../components/lupa.png';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

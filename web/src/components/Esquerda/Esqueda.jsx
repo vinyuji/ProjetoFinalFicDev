@@ -1,8 +1,8 @@
 import React from 'react'; // Certifique-se de que está importando o React
 import styles from  './styles.module.css';
 import { Link } from 'react-router-dom';
-import imagem from './imagem.png';
-import Close from './Close.png';
+import imagem from '../imagem.png';
+import Close from '../Close.png';
 
 export function Esquerda(){
     return(

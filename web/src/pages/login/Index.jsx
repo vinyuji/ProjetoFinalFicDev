@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import styles from './styles.module.css';
 import { Input } from "../../components/Input";
-import imagem from "../../utils/Esquerda/imagem.png";
+import imagem from '../../components/imagem.png';
 import { loginUser } from '../../services/user-services';
 
 export function Login() {

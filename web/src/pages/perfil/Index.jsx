@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
-import { Esquerda } from '../../utils/Esquerda/Esqueda';
-import Editar from '../../utils/editar.png';
+import { Esquerda } from '../../components/Esquerda/Esqueda';
+import Editar from '../../components/editar.png';
 
 export function Perfil() {
 
