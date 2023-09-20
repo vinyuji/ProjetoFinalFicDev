@@ -29,7 +29,7 @@ const { authMiddleware } = require('./middleware/auth-middleware');
 // Criando Rotas
 // User
 routes.post('/createUser', CreateUserController.CreateUser);
-routes.post('/findUser', GetUserController.GetUser);
+routes.get('/findUser', GetUserController.GetUser);
 routes.delete('/delUser', authMiddleware, DeleteUserController.DeleteUser);
 routes.put('/upDadosUser/:Cpf', authMiddleware, UpdateUserDadosController.UpdateUserDados);
 routes.put('/upFormacaoUser/:Cpf', authMiddleware, UpdateUserFormacaoController.UpdateUserFormacao);
@@ -38,13 +38,13 @@ routes.post('/LoginUser', LoginUserController.LoginUser);
 
 // Reserva
 routes.post('/createReserva', authMiddleware, CreateReservaController.CreateReserva);
-routes.post('/findReserva/:IdReserva', authMiddleware,  GetReservaController.GetReserva);
+routes.get('/findReserva/:IdReserva', authMiddleware,  GetReservaController.GetReserva);
 routes.delete('/delReserva', authMiddleware, DeleteReservaController.DeleteReserva);
 routes.put('/upReserva', authMiddleware, UpdateReservaController.UpdateReserva);
 
 // Sala
 routes.post('/createSala', CreateSalaController.CreateSala);
-routes.post('/findSala/:IdSala', GetSalaController.GetSala);
+routes.get('/findSala/:Id', GetSalaController.GetSala);
 routes.delete('/delSala', authMiddleware, DeleteSalaController.DeleteSala);
 routes.put('/upSala', authMiddleware, UpdateSalaController.UpdateSala);
 

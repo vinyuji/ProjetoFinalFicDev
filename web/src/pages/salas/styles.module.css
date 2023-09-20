@@ -67,7 +67,8 @@
 }
 .lista{
     margin-top: 5vh;
+    margin-left: 2vw;
     display: flex;
-    width: 80vw;
+    width: 78vw;
     justify-content: space-between;
 }
