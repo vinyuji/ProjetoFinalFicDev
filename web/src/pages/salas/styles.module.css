@@ -68,6 +68,14 @@
 .lista{
     margin-top: 5vh;
     margin-left: 2vw;
+    padding-right: 10vw;
+    display: flex;
+    width: 78vw;
+    justify-content: space-between;
+}
+.amostra{
+    margin-top: 5vh;
+    margin-left: 2vw;
     display: flex;
     width: 78vw;
     justify-content: space-between;

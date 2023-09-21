@@ -15,6 +15,7 @@ class SalaModel extends Model {
         TipoSala: DataTypes.TEXT,
         NumeroSala: DataTypes.TEXT,
         Capacidade: DataTypes.INTEGER,
+        Criador: DataTypes.TEXT,
       },{
         timestamps: true,
         sequelize: database,

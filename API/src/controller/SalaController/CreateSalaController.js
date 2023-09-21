@@ -5,10 +5,10 @@ const { SalaModel } = require('../../model/SalaModel');
 class CreateSalaController {
     async CreateSala (request, response) {
     try {
-        const { NomeSala, Funcao, TipoSala, NumeroSala, Capacidade } = request.body;
+        const { NomeSala, Funcao, TipoSala, NumeroSala, Capacidade, Criador } = request.body;
         
         // verifica se todos os parametros importantes foram preenchidos
-        if( !NomeSala || !Funcao || !TipoSala || !NumeroSala || !Capacidade ){
+        if( !NomeSala || !Funcao || !TipoSala || !NumeroSala || !Capacidade || !Criador){
             return response.status(400).json({
                 error: 'Parametros não atendidos'
             });
@@ -21,6 +21,7 @@ class CreateSalaController {
             TipoSala,
             NumeroSala,
             Capacidade,
+            Criador, 
         });
 
         return response.status(201).json( Func );

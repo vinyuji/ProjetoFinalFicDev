@@ -9,7 +9,9 @@ const API_URL = 'http://localhost:8080';
 
 export function Sala() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Adicionamos um novo estado para o modal de edição
   const [salas, setSalas] = useState([]);
+  const [salaPesquisada, setSalaPesquisada] = useState(null);
   const [salaEditada, setSalaEditada] = useState(null);
   const [novaSala, setNovaSala] = useState({
     NomeSala: '',
@@ -18,10 +20,10 @@ export function Sala() {
     NumeroSala: '',
     Capacidade: '',
   });
-  const [PesquisarId, setPesquisarId] = useState(''); // Adiciona estado para PesquisarId
+  const [PesquisarId, setPesquisarId] = useState('');
 
   useEffect(() => {
-    fetchSalas()
+    fetchSalas();
   }, []);
 
   const handleOpenModal = () => {
@@ -32,11 +34,27 @@ export function Sala() {
     setIsModalOpen(false);
   };
 
+  const handleOpenEditModal = () => {
+    setIsEditModalOpen(true); // Abrir o modal de edição quando o botão "Editar" for clicado
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false); // Fechar o modal de edição
+  };
+
   async function fetchSalas() {
     try {
-      const response = await fetch(`${API_URL}/findSala/${PesquisarId}`, { method: 'GET' });
+      const response = await fetch(`${API_URL}/findSala${PesquisarId ? `/${PesquisarId}` : ''}`, {
+        method: 'GET',
+      });
       const salaData = await response.json();
-      setSalas([salaData]); // Certifique-se de definir as salas como uma matriz, mesmo que seja uma única sala.
+      if (PesquisarId) {
+        setSalaPesquisada(salaData);
+        setSalas([]);
+      } else {
+        setSalas(salaData);
+        setSalaPesquisada(null);
+      }
     } catch (error) {
       console.error('Ocorreu um erro ao buscar as salas.', error);
     }
@@ -53,19 +71,20 @@ export function Sala() {
         alert('O ID da sala é obrigatório');
         return;
       }
-
-      const response = await fetch(`${API_URL}/updateSala/${salaEditada.IdSala}`, {
+  
+      const response = await fetch(`${API_URL}//upSala/${salaEditada.IdSala}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(salaEditada),
       });
-
+  
       if (response.status === 200) {
         alert('Sala atualizada com sucesso!');
         setSalaEditada(null);
         fetchSalas();
+        handleCloseEditModal();
       } else {
         console.error('Ocorreu um erro ao atualizar a sala.');
       }
@@ -128,6 +147,13 @@ export function Sala() {
     });
   };
 
+  const handleEditInputChange = (field, value) => {
+    setSalaEditada({
+      ...salaEditada,
+      [field]: value,
+    });
+  };
+
   return (
     <div className={styles.tudo}>
       <Esquerda></Esquerda>
@@ -143,9 +169,9 @@ export function Sala() {
               type="text"
               placeholder='Pesquisar por Id'
               value={PesquisarId}
-              onChange={(e) => setPesquisarId(e.target.value)} // Atualiza o estado PesquisarId
+              onChange={(e) => setPesquisarId(e.target.value)}
             />
-            <button type='button' onClick={fetchSalas}> {/* Chama selectSala com PesquisarId como argumento */}
+            <button type='button' onClick={fetchSalas}>
               <img src={Lupa} alt="sem foto" width={30} />
             </button>
           </div>
@@ -162,43 +188,57 @@ export function Sala() {
           <h2>Capacidade</h2>
         </div>
         <div className={styles.linha1}></div>
-        {salas.length > 0 ? (
-        <ul>
-        {salas.map((sala) => (
-              <li key={sala.IdSala}>
-                <p>CNPJ do Fornecedor: {sala.NomeSala}</p>
-                <p>Data: {sala.Funcao}</p>
-                <p>Valor: {sala.TipoSala}</p>
-                {salaEditada && salaEditada.id === sala.id ? (
-                  <div className={styles.form}>
-                    <input
-                      type="text"
-                      placeholder="CNPJ do Fornecedor"
-                      value={salaEditada.NomeSala}
-                      onChange={(e) =>
-                        setSalaEditada({ ...salaEditada, NomeSala: e.target.value })
-                      }
-                    />
-                    <input
-                      type="text"
-                      placeholder="Data"
-                      value={salaEditada.Funcao}
-                      onChange={(e) => setSalaEditada({ ...salaEditada, Funcao: e.target.value })}
-                    />
-                    <button onClick={editSala}>Atualizar Nota</button>
-                  </div>
-                ) : (
-                  <>
-                    <button onClick={() => selectSala(sala.id)}>Editar</button>
-                    <button onClick={() => removeSala(sala.id)}>Excluir</button>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
-  ):(
-    <p>Nao ha Salas Disponivei </p>
-  )}
+        {(PesquisarId && salaPesquisada) || (!PesquisarId && salas.length > 0) ? (
+      <ul>
+        {PesquisarId && salaPesquisada ? (
+          <li key={salaPesquisada.IdSala} className={styles.amostra}>
+            <p>{salaPesquisada.NomeSala}</p>
+            <p>{salaPesquisada.Funcao}</p>
+            <p>{salaPesquisada.Capacidade}</p>
+            <p>{salaPesquisada.Criador}</p>
+            
+            <button onClick={handleOpenEditModal}>Editar</button>
+            <button onClick={() => removeSala(salaPesquisada.IdSala)}>Excluir</button>
+          </li>
+        ) : (
+          salas.map((sala) => (
+            <li key={sala.IdSala}>
+              <p>CNPJ do Fornecedor: {sala.NomeSala}</p>
+              <p>Data: {sala.Funcao}</p>
+              <p>Valor: {sala.TipoSala}</p>
+              {salaEditada && salaEditada.IdSala === sala.IdSala ? (
+                <div className={styles.form}>
+                  <input
+                    type="text"
+                    placeholder="CNPJ do Fornecedor"
+                    value={salaEditada.NomeSala}
+                    onChange={(e) =>
+                      handleEditInputChange('NomeSala', e.target.value)
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="Data"
+                    value={salaEditada.Funcao}
+                    onChange={(e) =>
+                      handleEditInputChange('Funcao', e.target.value)
+                    }
+                  />
+                  <button onClick={editSala}>Atualizar</button>
+                </div>
+              ) : (
+                <>
+                  <button onClick={() => selectSala(sala.IdSala)}>Editar</button>
+                  <button onClick={() => removeSala(sala.IdSala)}>Excluir</button>
+                </>
+              )}
+            </li>
+          ))
+        )}
+      </ul>
+    ) : (
+      <p>Não há Salas Disponíveis</p>
+    )}
       </div>
 
       <Modal show={isModalOpen} onHide={handleCloseModal} centered>
@@ -262,6 +302,17 @@ export function Sala() {
                 onChange={handleInputChange}
               />
             </div>
+            <div className="mb-3">
+              <label htmlFor="Criador" className="form-label">Criador</label>
+              <input
+                type="text"
+                className="form-control"
+                name="Criador"
+                placeholder="Digite o Criador da sala"
+                value={novaSala.Criador}
+                onChange={handleInputChange}
+              />
+            </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
@@ -270,6 +321,91 @@ export function Sala() {
           </Button>
           <Button variant="primary" onClick={createSala}>
             Cadastrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal de Edição */}
+      <Modal show={isEditModalOpen} onHide={handleCloseEditModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Sala</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className="mb-3">
+              <label htmlFor="NomeSala" className="form-label">Nome da Sala</label>
+              <input
+                type="text"
+                className="form-control"
+                name="NomeSala"
+                placeholder="Digite o nome da sala"
+                value={salaEditada?.NomeSala || ''}
+                onChange={(e) => handleEditInputChange('NomeSala', e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="Funcao" className="form-label">Função</label>
+              <input
+                type="text"
+                className="form-control"
+                name="Funcao"
+                placeholder="Digite a função da sala"
+                value={salaEditada?.Funcao || ''}
+                onChange={(e) => handleEditInputChange('Funcao', e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="TipoSala" className="form-label">Tipo da Sala</label>
+              <input
+                type="text"
+                className="form-control"
+                name="TipoSala"
+                placeholder="Digite o tipo da sala"
+                value={salaEditada?.TipoSala || ''}
+                onChange={(e) => handleEditInputChange('TipoSala', e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="NumeroSala" className="form-label">Número da Sala</label>
+              <input
+                type="text"
+                className="form-control"
+                name="NumeroSala"
+                placeholder="Digite o número da sala"
+                value={salaEditada?.NumeroSala || ''}
+                onChange={(e) => handleEditInputChange('NumeroSala', e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="Capacidade" className="form-label">Capacidade</label>
+              <input
+                type="number"
+                className="form-control"
+                name="Capacidade"
+                placeholder="Digite a capacidade da sala"
+                value={salaEditada?.Capacidade || ''}
+                onChange={(e) => handleEditInputChange('Capacidade', e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="Criador" className="form-label">Criador</label>
+              <input
+                type="text"
+                className="form-control"
+                name="Criador"
+                placeholder="Digite o Criador da sala"
+                value={salaEditada?.Criador || ''}
+                onChange={(e) => handleEditInputChange('Criador', e.target.value)}
+              />
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseEditModal}>
+            Fechar
+          </Button>
+          <Button variant="primary" onClick={editSala}>
+            Atualizar
           </Button>
         </Modal.Footer>
       </Modal>

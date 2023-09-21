@@ -45,8 +45,8 @@ routes.put('/upReserva', authMiddleware, UpdateReservaController.UpdateReserva);
 // Sala
 routes.post('/createSala', CreateSalaController.CreateSala);
 routes.get('/findSala/:Id', GetSalaController.GetSala);
-routes.delete('/delSala', authMiddleware, DeleteSalaController.DeleteSala);
-routes.put('/upSala', authMiddleware, UpdateSalaController.UpdateSala);
+routes.delete('/delSala/:Id', authMiddleware, DeleteSalaController.DeleteSala);
+routes.put('/upSala/:Id', authMiddleware, UpdateSalaController.UpdateSala);
 
 
 module.exports = { routes };

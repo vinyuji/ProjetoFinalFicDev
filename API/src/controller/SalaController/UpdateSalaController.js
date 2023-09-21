@@ -3,7 +3,8 @@ const { SalaModel } = require('../../model/SalaModel');
 // Atualizar sala por IdSala
 class UpdateSalaController {
   async UpdateSala(req, res) {
-    const { IdSala, NomeSala, Funcao, TipoSala, NumeroSala, Capacidade } = req.body;
+    const { IdSala } = req.params
+    const { NomeSala, Funcao, TipoSala, NumeroSala, Capacidade, Criador} = req.body;
     try {
       if (!IdSala) {
         return res.status(400).json({ error: 'O campo IdSala é obrigatório' });
@@ -16,6 +17,7 @@ class UpdateSalaController {
           TipoSala,
           NumeroSala,
           Capacidade,
+          Criador,
         },
         {
           where: { IdSala }, // Critério de pesquisa com base no IdSala

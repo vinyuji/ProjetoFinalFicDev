@@ -31,6 +31,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      Criador: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,

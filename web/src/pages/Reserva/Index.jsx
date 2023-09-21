@@ -27,7 +27,7 @@ export function Reserva() {
       <Esquerda></Esquerda>
       <div className={styles.direita}>
         <div className={styles.header}>
-          <h1>Salas</h1>
+          <h1>Reserva</h1>
           <div className={styles.linha1}></div>
         </div>
 
