@@ -9,16 +9,17 @@ const API_URL = 'http://localhost:8080';
 
 export function Sala() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Adicionamos um novo estado para o modal de edição
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [salas, setSalas] = useState([]);
-  const [salaPesquisada, setSalaPesquisada] = useState(null);
   const [salaEditada, setSalaEditada] = useState(null);
+  const [salaBuscada, setSalaBuscada] = useState(null);
   const [novaSala, setNovaSala] = useState({
     NomeSala: '',
     Funcao: '',
     TipoSala: '',
     NumeroSala: '',
     Capacidade: '',
+    Criador: '',
   });
   const [PesquisarId, setPesquisarId] = useState('');
 
@@ -34,68 +35,93 @@ export function Sala() {
     setIsModalOpen(false);
   };
 
-  const handleOpenEditModal = () => {
-    setIsEditModalOpen(true); // Abrir o modal de edição quando o botão "Editar" for clicado
+  const handleOpenEditModal = (sala) => {
+    setIsEditModalOpen(true);
+    setSalaEditada(sala);
   };
 
   const handleCloseEditModal = () => {
-    setIsEditModalOpen(false); // Fechar o modal de edição
+    setIsEditModalOpen(false);
+    setSalaEditada(null);
   };
 
   async function fetchSalas() {
     try {
-      const response = await fetch(`${API_URL}/findSala${PesquisarId ? `/${PesquisarId}` : ''}`, {
-        method: 'GET',
-      });
-      const salaData = await response.json();
-      if (PesquisarId) {
-        setSalaPesquisada(salaData);
-        setSalas([]);
-      } else {
-        setSalas(salaData);
-        setSalaPesquisada(null);
-      }
+      const result = await fetch(`${API_URL}/sala`, { method: 'GET' });
+      const salaData = await result.json();
+      setSalas(salaData);
     } catch (error) {
-      console.error('Ocorreu um erro ao buscar as salas.', error);
+      console.error(error);
     }
   }
 
-  async function selectSala(id) {
-    const salaSelecionada = salas.find((sala) => sala.IdSala === id);
-    setSalaEditada(salaSelecionada);
+  async function buscarSalaPorId() {
+    if (!PesquisarId) {
+      fetchSalas();
+      return;
+    }
+    try {
+      const response = await fetch(`${API_URL}/sala/${PesquisarId}`, {
+        method: 'GET',
+      });
+
+      if (response.status === 200) {
+        const salaEncontrada = await response.json();
+        setSalaBuscada(salaEncontrada);
+      } else if (response.status === 404) {
+        alert('Sala não encontrada.');
+        setSalaBuscada(null);
+      } else {
+        console.error('Ocorreu um erro ao buscar a sala.');
+      }
+    } catch (error) {
+      console.error('Ocorreu um erro ao buscar a sala', error);
+    }
   }
 
   async function editSala() {
     try {
-      if (!salaEditada.IdSala) {
-        alert('O ID da sala é obrigatório');
-        return;
-      }
-  
-      const response = await fetch(`${API_URL}//upSala/${salaEditada.IdSala}`, {
+      const result = await fetch(`${API_URL}/sala/${salaEditada.IdSala}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(salaEditada),
       });
-  
-      if (response.status === 200) {
+
+      const salaEditadaData = await result.json();
+      if (result.status === 200) {
         alert('Sala atualizada com sucesso!');
+        setSalas((prevSalas) =>
+          prevSalas.map((sala) => {
+            if (sala.IdSala === salaEditada.IdSala) {
+              return {
+                ...sala,
+                NomeSala: salaEditadaData.NomeSala,
+                Funcao: salaEditadaData.NomeSala,
+              };
+            }
+            return sala;
+          })
+        );
         setSalaEditada(null);
-        fetchSalas();
-        handleCloseEditModal();
+        setIsEditModalOpen(false);
       } else {
-        console.error('Ocorreu um erro ao atualizar a sala.');
+        alert(salaEditadaData.error);
       }
     } catch (error) {
-      console.error('Ocorreu um erro ao atualizar a sala', error);
+      console.error(error);
     }
   }
 
   async function createSala() {
     try {
-      const response = await fetch(`${API_URL}/createSala`, {
+      if (!novaSala.NomeSala || !novaSala.Funcao || !novaSala.Criador) {
+        alert('O nome, a função e o nome do criador são obrigatórios');
+        return;
+      }
+
+      const result = await fetch(`${API_URL}/sala`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -103,16 +129,24 @@ export function Sala() {
         body: JSON.stringify(novaSala),
       });
 
-      if (response.status === 201) {
-        alert('Sala cadastrada com sucesso!');
+      const novaSalaData = await result.json();
+      if (result.status === 201) {
+        alert('Sala criada com sucesso!');
+        setNovaSala({
+          NomeSala: '',
+          Funcao: '',
+          TipoSala: '',
+          NumeroSala: '',
+          Capacidade: '',
+          Criador: '',
+        });
+        setSalas([...salas, novaSalaData]);
         setIsModalOpen(false);
-        fetchSalas();
       } else {
-        alert('Ocorreu um erro ao cadastrar a sala.');
+        alert(novaSalaData.error);
       }
     } catch (error) {
       console.error(error);
-      alert('Ocorreu um erro ao cadastrar a sala.');
     }
   }
 
@@ -122,7 +156,7 @@ export function Sala() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/deleteSala/${id}`, {
+      const response = await fetch(`${API_URL}/sala/${id}`, {
         method: 'DELETE',
       });
 
@@ -162,7 +196,6 @@ export function Sala() {
           <h1>Sala</h1>
           <div className={styles.linha1}></div>
         </div>
-
         <div className={styles.Pesq}>
           <div className={`${styles.pesquisa} bootstrap-form`}>
             <input
@@ -171,7 +204,7 @@ export function Sala() {
               value={PesquisarId}
               onChange={(e) => setPesquisarId(e.target.value)}
             />
-            <button type='button' onClick={fetchSalas}>
+            <button type='button' onClick={buscarSalaPorId}>
               <img src={Lupa} alt="sem foto" width={30} />
             </button>
           </div>
@@ -188,57 +221,61 @@ export function Sala() {
           <h2>Capacidade</h2>
         </div>
         <div className={styles.linha1}></div>
-        {(PesquisarId && salaPesquisada) || (!PesquisarId && salas.length > 0) ? (
-      <ul>
-        {PesquisarId && salaPesquisada ? (
-          <li key={salaPesquisada.IdSala} className={styles.amostra}>
-            <p>{salaPesquisada.NomeSala}</p>
-            <p>{salaPesquisada.Funcao}</p>
-            <p>{salaPesquisada.Capacidade}</p>
-            <p>{salaPesquisada.Criador}</p>
-            
-            <button onClick={handleOpenEditModal}>Editar</button>
-            <button onClick={() => removeSala(salaPesquisada.IdSala)}>Excluir</button>
-          </li>
-        ) : (
-          salas.map((sala) => (
-            <li key={sala.IdSala}>
-              <p>CNPJ do Fornecedor: {sala.NomeSala}</p>
-              <p>Data: {sala.Funcao}</p>
-              <p>Valor: {sala.TipoSala}</p>
-              {salaEditada && salaEditada.IdSala === sala.IdSala ? (
-                <div className={styles.form}>
-                  <input
-                    type="text"
-                    placeholder="CNPJ do Fornecedor"
-                    value={salaEditada.NomeSala}
-                    onChange={(e) =>
-                      handleEditInputChange('NomeSala', e.target.value)
-                    }
-                  />
-                  <input
-                    type="text"
-                    placeholder="Data"
-                    value={salaEditada.Funcao}
-                    onChange={(e) =>
-                      handleEditInputChange('Funcao', e.target.value)
-                    }
-                  />
-                  <button onClick={editSala}>Atualizar</button>
-                </div>
-              ) : (
-                <>
-                  <button onClick={() => selectSala(sala.IdSala)}>Editar</button>
-                  <button onClick={() => removeSala(sala.IdSala)}>Excluir</button>
-                </>
-              )}
-            </li>
-          ))
-        )}
-      </ul>
-    ) : (
-      <p>Não há Salas Disponíveis</p>
-    )}
+        <div className={styles.lista2}>
+          {salaBuscada !== null ? (
+            <div key={salaBuscada.IdSala} className={styles.SalaItem}>
+              <div>
+                <p>{salaBuscada.NomeSala}</p>
+                <p>{salaBuscada.Funcao}</p>
+                <p>{salaBuscada.Criador}</p>
+                <p>{salaBuscada.Capacidade}</p>
+              </div>
+              <div>
+                <Button onClick={() => handleOpenEditModal(salaBuscada)}>Editar</Button>
+                <Button onClick={() => removeSala(salaBuscada.IdSala)}>Remover</Button>
+              </div>
+            </div>
+          ) : salas.length > 0 ? (
+            salas.map((sala) => (
+              <div key={sala.IdSala} className={styles.SalaItem}>
+                {salaEditada === sala ? (
+                  <div className={styles.CaixaEdicao}>
+                    {/* Formulário de edição */}
+                    <div className="mb-3">
+                      <label htmlFor="NomeSala" className="form-label">Nome da Sala</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="NomeSala"
+                        placeholder="Digite o nome da sala"
+                        value={salaEditada?.NomeSala || ''}
+                        onChange={(e) => handleEditInputChange('NomeSala', e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      {/* ... Outros campos de edição */}
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.CaixaEdicao}>
+                    <div>
+                      <p>{sala.NomeSala}</p>
+                      <p>{sala.Funcao}</p>
+                      <p>{sala.Criador}</p>
+                      <p>{sala.Capacidade}</p>
+                    </div>
+                    <div>
+                      <Button onClick={() => handleOpenEditModal(sala)}>Editar</Button>
+                      <Button onClick={() => removeSala(sala.IdSala)}>Remover</Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className={styles.list}>Lista de salas vazia</p>
+          )}
+        </div>
       </div>
 
       <Modal show={isModalOpen} onHide={handleCloseModal} centered>
@@ -325,8 +362,8 @@ export function Sala() {
         </Modal.Footer>
       </Modal>
 
-      {/* Modal de Edição */}
-      <Modal show={isEditModalOpen} onHide={handleCloseEditModal} centered>
+     {/* Modal de Edição */}
+     <Modal show={isEditModalOpen} onHide={handleCloseEditModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>Editar Sala</Modal.Title>
         </Modal.Header>
