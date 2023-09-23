@@ -252,9 +252,6 @@ export function Sala() {
                         onChange={(e) => handleEditInputChange('NomeSala', e.target.value)}
                       />
                     </div>
-                    <div className="mb-3">
-                      {/* ... Outros campos de edição */}
-                    </div>
                   </div>
                 ) : (
                   <div className={styles.CaixaEdicao}>
