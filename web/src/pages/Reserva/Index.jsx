@@ -4,13 +4,16 @@ import styles from './styles.module.css';
 import { Esquerda } from '../../components/Esquerda/Esqueda';
 import Lupa from '../../components/lupa.png';
 
+const API_URL = 'http://localhost:8080';
 export function Reserva() {
-  const [novaSala, setNovaSala] = useState({
-    NomeSala: '',
-    Funcao: '',
-    TipoSala: '',
-    NumeroSala: '',
-    Capacidade: '',
+  const [reservas, setReserva] = useState([]);
+  const [novaReserva, setNovaReserva] = useState({
+    IdSala: '',
+    FuncaoSala: '', 
+    NumeroSala: '', 
+    DataReserva: '', 
+    Capacidade: '', 
+    Cpf: '', 
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -21,6 +24,42 @@ export function Reserva() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  //Criar uma reserva 
+   async function CreateReserva() {
+      try {
+        if (!novaReserva.IdSala || !novaReserva.DataReserva || !novaReserva.Cpf ){
+          alert ( 'IdSala, Data de Reserva e Cpf sao obrigatorios!' );
+          return;
+        }
+        const result = await fetch(`${API_URL}/reserva`,{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(novaReserva),
+        });
+
+        const novaReservaData = await result.json();
+        if(result.status === 201 ) {
+          alert('Reserva criada com sucesso!');
+          setNovaReserva({
+            IdSala: '',
+            FuncaoSala: '', 
+            NumeroSala: '', 
+            DataReserva: '', 
+            Capacidade: '', 
+            Cpf: '', 
+          });
+          setReserva([...reservas, novaReservaData]);
+          handleOpenModal(false)
+        } else {
+          alert(novaReservaData.error);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+   }
 
   return (
     <div className={styles.tudo}>
@@ -51,6 +90,7 @@ export function Reserva() {
           <h2>Estado</h2>
         </div>
         <div className={styles.linha1}></div>
+        
         <Modal show={isModalOpen} onHide={handleCloseModal} centered>
           <Modal.Header closeButton>
             <Modal.Title>Cadastro de Sala</Modal.Title>
@@ -58,25 +98,69 @@ export function Reserva() {
           <Modal.Body>
             <form>
               <div className="mb-3">
-                <label htmlFor="nomeSala" className="form-label">Nome da Sala</label>
+                <label htmlFor="IdSala" className="form-label">Id sala</label>
                 <input
                   type="text"
                   className="form-control"
-                  id="nomeSala"
-                  placeholder="Digite o nome da sala"
-                  value={novaSala.NomeSala}
-                  onChange={(e) => setNovaSala({ ...novaSala, NomeSala: e.target.value })}
+                  id="IdSala"
+                  placeholder="Digite o Id da sala"
+                  value={novaReserva.IdSala}
+                  onChange={(e) => setNovaReserva({ ...novaReserva, IdSala: e.target.value })}
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="funcao" className="form-label">Função</label>
+                <label htmlFor="FuncaoSala" className="form-label">Função</label>
                 <input
                   type="text"
                   className="form-control"
-                  id="funcao"
+                  id="FuncaoSala"
                   placeholder="Digite a função da sala"
-                  value={novaSala.Funcao}
-                  onChange={(e) => setNovaSala({ ...novaSala, Funcao: e.target.value })}
+                  value={novaReserva.FuncaoSala}
+                  onChange={(e) => setNovaReserva({ ...novaReserva, FuncaoSala: e.target.value })}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="NumeroSala" className="form-label">Numero da sala</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="NumeroSala"
+                  placeholder="Digite a função da sala"
+                  value={novaReserva.NumeroSala}
+                  onChange={(e) => setNovaReserva({ ...novaReserva, NumeroSala: e.target.value })}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="DataReserva" className="form-label">Data de reserva</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="DataReserva"
+                  placeholder="Digite a função da sala"
+                  value={novaReserva.DataReserva}
+                  onChange={(e) => setNovaReserva({ ...novaReserva, DataReserva: e.target.value })}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="Capacidade" className="form-label">Capacidade</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="Capacidade"
+                  placeholder="Digite a função da sala"
+                  value={novaReserva.Capacidade}
+                  onChange={(e) => setNovaReserva({ ...novaReserva, Capacidade: e.target.value })}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="Cpf" className="form-label">Cpf</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="Cpf"
+                  placeholder="Digite a função da sala"
+                  value={novaReserva.Cpf}
+                  onChange={(e) => setNovaReserva({ ...novaReserva, Cpf: e.target.value })}
                 />
               </div>
             </form>
@@ -85,8 +169,8 @@ export function Reserva() {
             <Button variant="secondary" onClick={handleCloseModal}>
               Fechar
             </Button>
-            <Button variant="primary">
-              Cadastrar
+            <Button variant="primary" onClick={CreateReserva}>
+              Reserva
             </Button>
           </Modal.Footer>
         </Modal>

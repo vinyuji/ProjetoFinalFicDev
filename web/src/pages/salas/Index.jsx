@@ -141,7 +141,7 @@ export function Sala() {
           Criador: '',
         });
         setSalas([...salas, novaSalaData]);
-        setIsModalOpen(false);
+        setIsModalOpen(false)
       } else {
         alert(novaSalaData.error);
       }
