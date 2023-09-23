@@ -1,10 +1,6 @@
 const { Router } = require('express');
 const routes = Router();
 
-//modelos 
-const { SalaModel } = require('./model/SalaModel');
-const { ReservaModel } = require('./model/ReservaModel');
-
 // Fazendo as require
 
 // User
@@ -16,10 +12,15 @@ const UpdateUserFormacaoController = require('./controller/UsuarioController/Upd
 const UpdateUserSenhaController = require('./controller/UsuarioController/UpdateUserSenhaController');
 const LoginUserController = require('./controller/UsuarioController/LoginUserController');
 
+//Sala
+const SalaController = require ('./controller/Sala/SalaController');
 
+//reserva
+const ReservaController = require('./controller/Reserva/ReservaController');
 
 
 const { authMiddleware } = require('./middleware/auth-middleware');
+
 // Criando Rotas
 // User
 routes.post('/createUser', CreateUserController.CreateUser);
@@ -30,102 +31,18 @@ routes.put('/upFormacaoUser/:Cpf', authMiddleware, UpdateUserFormacaoController.
 routes.put('/upSenhaUser/:Cpf', authMiddleware,  UpdateUserSenhaController.UpdatePassword);
 routes.post('/LoginUser', LoginUserController.LoginUser);
 
-
-
 // Sala
-//Buscar Sala
-routes.get('/sala', async (req, res) => {
-    try {
-        const salas = await SalaModel.findAll();
-        return res.status(200).json(salas);
-    } catch (error) {
-        return res.status(500).json({
-            error: `Erro interno! ${error}`
-        });
-    }
-});
+routes.get('/sala', SalaController.FindSala);
+routes.get('/sala/:IdSala', SalaController.GetSala );
+routes.delete('/sala/:IdSala', SalaController.DeleteSala);
+routes.put('/sala/:IdSala', SalaController.PutSala);
+routes.post('/sala', SalaController.CreateSala);
 
-// Obter uma Sala por ID
-routes.get('/sala/:IdSala', async (req, res) => {
-    try {
-        const { IdSala } = req.params;
-        const sala = await SalaModel.findByPk(IdSala);
-        if (!sala) {
-            return res.status(404).json({
-                error: 'Sala não foi encontrada!'
-            });
-        }
-        return res.status(200).json(sala);
-    } catch (error) {
-        return res.status(500).json({
-            error: `Erro interno! ${error}`
-        });
-    }
-});
-
-//deletetar Sala
-routes.delete('/sala/:IdSala', async (req, res) => {
-    try {
-        const { IdSala } = req.params;
-        const salaExiste = await SalaModel.findByPk(IdSala);
-        if (!salaExiste) {
-            return res.status(404).json({
-                error: 'sala não foi econtrada!'
-            });
-        }
-        await SalaModel.destroy({ where: { IdSala } });
-        return res.status(200).json({
-            message: 'sala removida com sucesso!'
-        });
-    } catch (error) {
-        return res.status(500).json({
-            error: `Erro interno! ${error}`
-        });
-    }
-});
-
-// Atualizar Sala
-routes.put('/sala/:IdSala', async (req, res) => {
-    try {
-        const { IdSala } = req.params;
-        const { NomeSala, Funcao } = req.body;
-        const salaExistente = await SalaModel.findByPk(IdSala);
-        if (!salaExistente) {
-            return res.status(404).json({
-                error: 'Sala não foi encontrada!'
-            });
-        }
-        await salaExistente.update({
-            NomeSala,
-            Funcao,
-        });
-        return res.status(200).json(salaExistente);
-    } catch (error) {
-        return res.status(500).json({
-            error: `Erro interno! ${error}`
-        });
-    }
-});
-
-// Criar Sala
-routes.post('/sala', async (req, res) => {
-    try {
-        const { NomeSala, Funcao, TipoSala, NumeroSala, Capacidade, Criador } = req.body;
-        const NovaSala = await SalaModel.create({
-            NomeSala, 
-            Funcao, 
-            TipoSala, 
-            NumeroSala, 
-            Capacidade, 
-            Criador 
-        });
-        return res.status(201).json(NovaSala);
-    } catch (error) {
-        return res.status(500).json({
-            error: `Erro interno! ${error}`
-        });
-    }
-});
-
+// Reserva
+routes.post('/reserva', ReservaController.CreateReserva);
+routes.get('/reserva', ReservaController.FindReserva);
+routes.get('/reserva/:IdReserva', ReservaController.GetReserva);
+routes.delete('/reserva/:IdReserva', ReservaController.DeleteReserva);
+routes.put('/reserva', ReservaController.DeleteReserva);
 
 module.exports = { routes };

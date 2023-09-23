@@ -14,47 +14,40 @@ module.exports = {
       },
       Sala: {
         type: Sequelize.TEXT,
-        allowNull: false,
       },
       FuncaoSala: {
         type: Sequelize.TEXT,
-        allowNull: false,
       },
       NumeroSala: {
         type: Sequelize.TEXT,
-        allowNull: false,
       },
       DataReserva: {
         type: Sequelize.DATE,
-        allowNull: false,
       },
       Capacidade: {
         type: Sequelize.INTEGER,
-        allowNull: false,
       },
       PessoaReservista: {
         type: Sequelize.TEXT,
-        allowNull: false,
+
       },
       Status: {
         type: Sequelize.TEXT,
-        allowNull: false,
+
       },
       Cpf: {
         type: Sequelize.TEXT,
       },
       IdSala: {
         type: Sequelize.INTEGER,
-        allowNull:false,
+
       },
       updatedAt: {
         type: Sequelize.DATE,
-        allowNull: false,
         defaultValue: Sequelize.NOW,
       },
       createdAt: {
           type: Sequelize.DATE,
-          allowNull: false,
           defaultValue: Sequelize.NOW,
       },
     });
