@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
 import { Esquerda } from '../../components/Esquerda/Esqueda';
 import Lupa from '../../components/lupa.png';
+import Editi from '../../components/editar.png';
+import Delete from '../../components/delete.png';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -208,7 +210,7 @@ export function Sala() {
               <img src={Lupa} alt="sem foto" width={30} />
             </button>
           </div>
-          <div className={`${styles.cadSala} bootstrap-button`}>
+          <div className={styles.cadSala}>
             <button type='button' onClick={handleOpenModal}>
               <h3>Cadastrar Sala</h3>
             </button>
@@ -223,16 +225,20 @@ export function Sala() {
         <div className={styles.linha1}></div>
         <div className={styles.lista2}>
           {salaBuscada !== null ? (
-            <div key={salaBuscada.IdSala} className={styles.SalaItem}>
-              <div>
+            <div key={salaBuscada.IdSala} className={styles.CaixaEdicao}>
+              <div className={styles.CaixaMostrada}>
                 <p>{salaBuscada.NomeSala}</p>
                 <p>{salaBuscada.Funcao}</p>
                 <p>{salaBuscada.Criador}</p>
                 <p>{salaBuscada.Capacidade}</p>
               </div>
               <div>
-                <Button onClick={() => handleOpenEditModal(salaBuscada)}>Editar</Button>
-                <Button onClick={() => removeSala(salaBuscada.IdSala)}>Remover</Button>
+                    <button onClick={() => handleOpenEditModal(salaBuscada)} className={styles.Editar}>
+                      <img src={ Editi }  alt="sem foto" width={20}/>
+                    </button>
+                    <button onClick={() => removeSala(salaBuscada.IdSala)} className={styles.Editar}>
+                      <img src={ Delete }  alt="sem foto" width={20}/>
+                    </button>
               </div>
             </div>
           ) : salas.length > 0 ? (
@@ -240,30 +246,23 @@ export function Sala() {
               <div key={sala.IdSala} className={styles.SalaItem}>
                 {salaEditada === sala ? (
                   <div className={styles.CaixaEdicao}>
-                    {/* Formulário de edição */}
-                    <div className="mb-3">
-                      <label htmlFor="NomeSala" className="form-label">Nome da Sala</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="NomeSala"
-                        placeholder="Digite o nome da sala"
-                        value={salaEditada?.NomeSala || ''}
-                        onChange={(e) => handleEditInputChange('NomeSala', e.target.value)}
-                      />
-                    </div>
+                    
                   </div>
                 ) : (
                   <div className={styles.CaixaEdicao}>
-                    <div>
+                    <div className={styles.CaixaMostrada}>
                       <p>{sala.NomeSala}</p>
                       <p>{sala.Funcao}</p>
                       <p>{sala.Criador}</p>
                       <p>{sala.Capacidade}</p>
                     </div>
                     <div>
-                      <Button onClick={() => handleOpenEditModal(sala)}>Editar</Button>
-                      <Button onClick={() => removeSala(sala.IdSala)}>Remover</Button>
+                      <button onClick={() => handleOpenEditModal(salaBuscada)} className={styles.Editar}>
+                        <img src={ Editi }  alt="sem foto" width={20}/>
+                      </button>
+                      <button onClick={() => removeSala(sala.IdSala)} className={styles.Editar}>
+                        <img src={ Delete }  alt="sem foto" width={20}/>
+                      </button>
                     </div>
                   </div>
                 )}

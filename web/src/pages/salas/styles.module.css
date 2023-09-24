@@ -50,10 +50,15 @@
     width: 10vw;
 }
 .cadSala{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 5vh;
     width: 30vw;
 }
 .cadSala button{
+    display: flex;
+    justify-content: center;
     align-items: center;
     border-radius: 10px;
     background-color: #1A3281;
@@ -67,7 +72,7 @@
 }
 .lista{
     margin-top: 5vh;
-    margin-left: 2vw;
+    margin-left: 1vw;
     padding-right: 10vw;
     display: flex;
     width: 78vw;
@@ -79,4 +84,41 @@
     display: flex;
     width: 78vw;
     justify-content: space-between;
+}
+.Editar{
+    background-color: white;
+}
+.lista2{
+    width: 80vw;
+    max-height: 54vh;
+    margin-left: 1vw;
+    margin-top: 2vh;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5px;
+    border: 5px solid #1A3281;
+}
+.CaixaEdicao{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.CaixaMostrada{
+    border-radius: 10px;
+    border: 2px solid #1A3281;
+    margin-top: 3vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 72vw;
+    margin-left: 3vw;
+}
+.CaixaMostrada p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2vh;
 }
