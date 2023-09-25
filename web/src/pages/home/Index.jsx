@@ -9,7 +9,7 @@ export function Home() {
       <Esquerda></Esquerda>
       <div className={styles.direita}>
         <div className={styles.header}>
-          <h1>Notificacoes</h1>
+          <h1>DashBoard</h1>
           <div className={styles.linha1}></div>
         </div>
         <div className={styles.notif}>

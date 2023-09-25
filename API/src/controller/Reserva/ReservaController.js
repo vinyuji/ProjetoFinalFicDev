@@ -58,7 +58,7 @@ class SalaController {
     async PutReserva(req, res){
         try {
             const { IdReserva } = req.params;
-            const { NomeReserva, Funcao } = req.body;
+            const { IdSala, DataReserva, Capacidade, Cpf } = req.body;
             const reservaExistente = await ReservaModel.findByPk(IdReserva);
             if (!reservaExistente) {
                 return res.status(404).json({
@@ -66,10 +66,12 @@ class SalaController {
                 });
             }
             await reservaExistente.update({
-                NomeReserva,
-                Funcao,
+                IdSala,
+                DataReserva, 
+                Capacidade, 
+                Cpf,
             });
-            return res.status(200).json(ReservaExistente);
+            return res.status(200).json(reservaExistente);
         } catch (error) {
             return res.status(500).json({
                 error: `Erro interno! ${error}`

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
 import { Esquerda } from '../../components/Esquerda/Esqueda';
 import Lupa from '../../components/lupa.png';
+import Editi from '../../components/editar.png';
+import Delete from '../../components/delete.png';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -14,6 +16,7 @@ export function Reserva() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [reservaEditada, setReservaEditada] = useState(null);
   const [reservaBuscada, setReservaBuscada] = useState(null);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [PesquisarId, setPesquisarId] = useState('');
   const [novaReserva, setNovaReserva] = useState({
     IdSala: '',
@@ -23,6 +26,17 @@ export function Reserva() {
     Capacidade: '',
     Cpf: '',
   });
+
+
+  const openSearchModal = () => {
+    fetchReservas();
+    setIsSearchModalOpen(true);
+  };
+
+  const closeSearchModal = () => {
+    fetchReservas();    
+    setIsSearchModalOpen(false);
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -93,6 +107,7 @@ export function Reserva() {
       });
 
       const reservaEditadaData = await result.json();
+      fetchReservas();
       if (result.status === 200) {
         alert('Sala atualizada com sucesso!');
         setReservas((prevReserva) =>
@@ -196,75 +211,59 @@ export function Reserva() {
               value={PesquisarId}
               onChange={(e) => setPesquisarId(e.target.value)}
             />
-            <button type='button' onClick={buscarReservaPorId}>
+            <button type='button' onClick={() => {buscarReservaPorId(); openSearchModal();}}>
               <img src={Lupa} alt="sem foto" width={30} />
             </button>
           </div>
-          <div className={`${styles.cadSala} bootstrap-button`}>
+          <div className={styles.cadSala}>
             <button type='button' onClick={handleOpenModal}>
               <h3>Reservar</h3>
             </button>
           </div>
         </div>
         <div className={styles.lista}>
-          <h2>ID Reserva</h2>
-          <h2>Data Reserva</h2>
+          <h2>Is reserva</h2>
+          <h2>Id sala</h2>
+          <h2>Data reserva</h2>
           <h2>Capacidade</h2>
-          <h2>Id Reservador</h2>
+          <h2>Id reservador</h2>
         </div>
         <div className={styles.linha1}></div>
         <div className={styles.lista2}>
-          {reservaBuscada !== null ? (
-            <div key={reservaBuscada.IdSala} className={styles.SalaItem}>
-              <div>
-                <p>{reservaBuscada.IdReserva}</p>
-                <p>{reservaBuscada.DataReserva}</p>
-                <p>{reservaBuscada.Capacidade}</p>
-                <p>{reservaBuscada.Cpf}</p>
-              </div>
-              <div>
-                <Button onClick={() => handleOpenEditModal(reservaBuscada)}>Editar</Button>
-                <Button onClick={() => deleteReserva(reservaBuscada.IdReserva)}>Remover</Button>
-              </div>
-            </div>
-          ) : reservas.length > 0 ? (
-            reservas.map((reserva) => (
-              <div key={reserva.IdReserva} className={styles.SalaItem}>
-                {reservaEditada === reserva ? (
-                  <div className={styles.CaixaEdicao}>
-                    <div className="mb-3">
-                      <label htmlFor="Sala" className="form-label">Nome da Sala</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="Sala"
-                        placeholder="Digite o nome da sala"
-                        value={reservaEditada?.Sala || ''}
-                        onChange={(e) => handleEditInputChange('Sala', e.target.value)}
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.CaixaEdicao}>
-                    <div>
-                      <p>{reserva.IdSala}</p>
-                      <p>{reserva.DataReserva}</p>
-                      <p>{reserva.Capacidade}</p>
-                      <p>{reserva.Cpf}</p>
-                    </div>
-                    <div>
-                      <Button onClick={() => handleOpenEditModal(reserva)}>Editar</Button>
-                      <Button onClick={() => deleteReserva(reserva.IdReserva)}>Remover</Button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))
-          ) : (
-            <p className={styles.list}>Lista de reserva vazia</p>
-          )}
+          <div className={styles.scrollContainer}>
+              {reservas.length > 0 ? (
+                reservas.map((reserva) => (
+                  <div key={reserva.IdReserva} className={styles.ReservaItem}>
+                    {reservaEditada === reserva ? (
+                      <div className={styles.CaixaEdicao}>
+                      </div>
+                    ) : (
+                      <div className={styles.CaixaEdicao}>
+                        <div className={styles.CaixaMostrada}>
+                          <p>{reserva.IdReserva}</p>
+                          <p>{reserva.IdSala}</p>
+                          <p>{reserva.DataReserva}</p>
+                          <p>{reserva.Capacidade}</p>
+                          <p>{reserva.Cpf}</p>
+                        </div>
+                        <div>
+                          <button onClick={() => handleOpenEditModal(reserva)} className={styles.Editar}>
+                            <img src={Editi} alt="sem foto" width={20} />
+                          </button>
+                          <button onClick={() => deleteReserva(reserva.IdReserva)} className={styles.Editar}>
+                            <img src={Delete} alt="sem foto" width={20} />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                </div>
+              ))
+            ) : (
+              <p className={styles.list}>Lista de salas vazia</p>
+            )}
+          </div>
         </div>
-      </div>
+        </div>
 
         <Modal show={isModalOpen} onHide={handleCloseModal} centered>
           <Modal.Header closeButton>
@@ -281,28 +280,6 @@ export function Reserva() {
                   placeholder="Digite o Id da sala"
                   value={novaReserva.IdSala}
                   onChange={(e) => setNovaReserva({ ...novaReserva, IdSala: e.target.value })}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="FuncaoSala" className="form-label">Função</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="FuncaoSala"
-                  placeholder="Digite a função da sala"
-                  value={novaReserva.FuncaoSala}
-                  onChange={(e) => setNovaReserva({ ...novaReserva, FuncaoSala: e.target.value })}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="NumeroSala" className="form-label">Numero da sala</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="NumeroSala"
-                  placeholder="Digite a função da sala"
-                  value={novaReserva.NumeroSala}
-                  onChange={(e) => setNovaReserva({ ...novaReserva, NumeroSala: e.target.value })}
                 />
               </div>
               <div className="mb-3">
@@ -350,7 +327,6 @@ export function Reserva() {
           </Modal.Footer>
         </Modal>
 
-      {/* Modal de Edição */}
       <Modal show={isEditModalOpen} onHide={handleCloseEditModal} centered>
           <Modal.Header closeButton>
             <Modal.Title>Editar Sala</Modal.Title>
@@ -358,47 +334,25 @@ export function Reserva() {
           <Modal.Body>
             <form>
               <div className="mb-3">
-                <label htmlFor="NomeSala" className="form-label">Nome da Sala</label>
+                <label htmlFor="IdSala" className="form-label">Id da Sala</label>
                 <input
                   type="text"
                   className="form-control"
-                  name="NomeSala"
+                  name="IdSala"
                   placeholder="Digite o nome da sala"
-                  value={reservaEditada?.NomeSala || ''}
-                  onChange={(e) => handleEditInputChange('NomeSala', e.target.value)}
+                  value={reservaEditada?.IdSala || ''}
+                  onChange={(e) => handleEditInputChange('IdSala', e.target.value)}
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="Funcao" className="form-label">Função</label>
+                <label htmlFor="DataReserva" className="form-label">Data de Reserva</label>
                 <input
                   type="text"
                   className="form-control"
-                  name="Funcao"
-                  placeholder="Digite a função da sala"
-                  value={reservaEditada?.Funcao || ''}
-                  onChange={(e) => handleEditInputChange('Funcao', e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="TipoSala" className="form-label">Tipo da Sala</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="TipoSala"
-                  placeholder="Digite o tipo da sala"
-                  value={reservaEditada?.TipoSala || ''}
-                  onChange={(e) => handleEditInputChange('TipoSala', e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="NumeroSala" className="form-label">Número da Sala</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="NumeroSala"
-                  placeholder="Digite o número da sala"
-                  value={reservaEditada?.NumeroSala || ''}
-                  onChange={(e) => handleEditInputChange('NumeroSala', e.target.value)}
+                  name="DataReserva"
+                  placeholder="Digite o nome da sala"
+                  value={reservaEditada?.DataReserva || ''}
+                  onChange={(e) => handleEditInputChange('DataReserva', e.target.value)}
                 />
               </div>
               <div className="mb-3">
@@ -413,14 +367,14 @@ export function Reserva() {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="Criador" className="form-label">Criador</label>
+                <label htmlFor="Cpf" className="form-label">Cpf</label>
                 <input
                   type="text"
                   className="form-control"
-                  name="Criador"
-                  placeholder="Digite o Criador da sala"
-                  value={reservaEditada?.Criador || ''}
-                  onChange={(e) => handleEditInputChange('Criador', e.target.value)}
+                  name="Cpf"
+                  placeholder="Digite o Cpf Do reservador"
+                  value={reservaEditada?.Cpf || ''}
+                  onChange={(e) => handleEditInputChange('Cpf', e.target.value)}
                 />
               </div>
             </form>
@@ -434,6 +388,39 @@ export function Reserva() {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        <Modal show={isSearchModalOpen} onHide={closeSearchModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Resultado da Pesquisa</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {reservaBuscada !== null ? (
+            <div key={reservaBuscada.IdReserva} className={styles.CaixaEdicao}>
+              <div className={styles.modalSearch}>
+                <p>IdSala: {reservaBuscada.IdSala}</p>
+                <p>Data de Reserva: {reservaBuscada.DataReserva}</p>
+                <p>Reservador: {reservaBuscada.Cpf}</p>
+                <p>Capacidade: {reservaBuscada.Capacidade}</p>
+              </div>
+              <div>
+                <button onClick={() => handleOpenEditModal(reservaBuscada)} className={styles.Editar}>
+                  <img src={Editi} alt="sem foto" width={20} />
+                </button>
+                <button onClick={() => deleteReserva(reservaBuscada.IdSala)} className={styles.Editar}>
+                  <img src={Delete} alt="sem foto" width={20} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p className={styles.list}>Sala não encontrada.</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeSearchModal}>
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

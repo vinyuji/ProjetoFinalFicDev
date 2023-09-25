@@ -42,7 +42,7 @@ routes.post('/sala', SalaController.CreateSala);
 routes.post('/reserva', ReservaController.CreateReserva);
 routes.get('/reserva', ReservaController.FindReserva);
 routes.get('/reserva/:IdReserva', ReservaController.GetReserva);
+routes.put('/reserva/:IdReserva', ReservaController.PutReserva);
 routes.delete('/reserva/:IdReserva', ReservaController.DeleteReserva);
-routes.put('/reserva', ReservaController.DeleteReserva);
 
 module.exports = { routes };

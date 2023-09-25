@@ -24,25 +24,40 @@ export function Sala() {
     Criador: '',
   });
   const [PesquisarId, setPesquisarId] = useState('');
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   useEffect(() => {
     fetchSalas();
   }, []);
 
+  const openSearchModal = () => {
+    fetchSalas();
+    setIsSearchModalOpen(true);
+  };
+
+  const closeSearchModal = () => {
+    fetchSalas();
+    setIsSearchModalOpen(false);
+  };
+
   const handleOpenModal = () => {
+    fetchSalas();
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
+    fetchSalas();
     setIsModalOpen(false);
   };
 
   const handleOpenEditModal = (sala) => {
+    fetchSalas();
     setIsEditModalOpen(true);
     setSalaEditada(sala);
   };
 
   const handleCloseEditModal = () => {
+    fetchSalas();
     setIsEditModalOpen(false);
     setSalaEditada(null);
   };
@@ -59,7 +74,6 @@ export function Sala() {
 
   async function buscarSalaPorId() {
     if (!PesquisarId) {
-      fetchSalas();
       return;
     }
     try {
@@ -70,6 +84,7 @@ export function Sala() {
       if (response.status === 200) {
         const salaEncontrada = await response.json();
         setSalaBuscada(salaEncontrada);
+        fetchSalas();
       } else if (response.status === 404) {
         alert('Sala não encontrada.');
         setSalaBuscada(null);
@@ -90,7 +105,6 @@ export function Sala() {
         },
         body: JSON.stringify(salaEditada),
       });
-
       const salaEditadaData = await result.json();
       if (result.status === 200) {
         alert('Sala atualizada com sucesso!');
@@ -106,8 +120,9 @@ export function Sala() {
             return sala;
           })
         );
-        setSalaEditada(null);
-        setIsEditModalOpen(false);
+        setIsEditModalOpen(false); // Fechar o modal de edição
+        setSalaEditada(null); // Limpar o estado salaEditada
+        fetchSalas(); // Atualizar a lista imediatamente
       } else {
         alert(salaEditadaData.error);
       }
@@ -115,6 +130,7 @@ export function Sala() {
       console.error(error);
     }
   }
+  
 
   async function createSala() {
     try {
@@ -143,7 +159,8 @@ export function Sala() {
           Criador: '',
         });
         setSalas([...salas, novaSalaData]);
-        setIsModalOpen(false)
+        setIsModalOpen(false);
+        fetchSalas();
       } else {
         alert(novaSalaData.error);
       }
@@ -176,6 +193,7 @@ export function Sala() {
   }
 
   const handleInputChange = (e) => {
+    fetchSalas();
     const { name, value } = e.target;
     setNovaSala({
       ...novaSala,
@@ -184,6 +202,7 @@ export function Sala() {
   };
 
   const handleEditInputChange = (field, value) => {
+    fetchSalas();
     setSalaEditada({
       ...salaEditada,
       [field]: value,
@@ -206,7 +225,7 @@ export function Sala() {
               value={PesquisarId}
               onChange={(e) => setPesquisarId(e.target.value)}
             />
-            <button type='button' onClick={buscarSalaPorId}>
+            <button type='button' onClick={() => {buscarSalaPorId(); openSearchModal();}}>
               <img src={Lupa} alt="sem foto" width={30} />
             </button>
           </div>
@@ -218,60 +237,43 @@ export function Sala() {
         </div>
         <div className={styles.lista}>
           <h2>Sala criada</h2>
-          <h2>Função</h2>
+          <h2>IdSala</h2>
           <h2>Criador</h2>
           <h2>Capacidade</h2>
         </div>
         <div className={styles.linha1}></div>
         <div className={styles.lista2}>
-          {salaBuscada !== null ? (
-            <div key={salaBuscada.IdSala} className={styles.CaixaEdicao}>
-              <div className={styles.CaixaMostrada}>
-                <p>{salaBuscada.NomeSala}</p>
-                <p>{salaBuscada.Funcao}</p>
-                <p>{salaBuscada.Criador}</p>
-                <p>{salaBuscada.Capacidade}</p>
-              </div>
-              <div>
-                    <button onClick={() => handleOpenEditModal(salaBuscada)} className={styles.Editar}>
-                      <img src={ Editi }  alt="sem foto" width={20}/>
-                    </button>
-                    <button onClick={() => removeSala(salaBuscada.IdSala)} className={styles.Editar}>
-                      <img src={ Delete }  alt="sem foto" width={20}/>
-                    </button>
-              </div>
-            </div>
-          ) : salas.length > 0 ? (
-            salas.map((sala) => (
-              <div key={sala.IdSala} className={styles.SalaItem}>
-                {salaEditada === sala ? (
-                  <div className={styles.CaixaEdicao}>
-                    
-                  </div>
-                ) : (
-                  <div className={styles.CaixaEdicao}>
-                    <div className={styles.CaixaMostrada}>
-                      <p>{sala.NomeSala}</p>
-                      <p>{sala.Funcao}</p>
-                      <p>{sala.Criador}</p>
-                      <p>{sala.Capacidade}</p>
-                    </div>
-                    <div>
-                      <button onClick={() => handleOpenEditModal(salaBuscada)} className={styles.Editar}>
-                        <img src={ Editi }  alt="sem foto" width={20}/>
-                      </button>
-                      <button onClick={() => removeSala(sala.IdSala)} className={styles.Editar}>
-                        <img src={ Delete }  alt="sem foto" width={20}/>
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))
-          ) : (
-            <p className={styles.list}>Lista de salas vazia</p>
-          )}
+          <div className={styles.scrollContainer}>
+              {salas.length > 0 ? (
+                salas.map((sala) => (
+                  <div key={sala.IdSala} className={styles.SalaItem}>
+                    {salaEditada === sala ? (
+                      <div className={styles.CaixaEdicao}></div>
+                    ) : (
+                      <div className={styles.CaixaEdicao}>
+                        <div className={styles.CaixaMostrada}>
+                          <p>{sala.NomeSala}</p>
+                          <p>{sala.IdSala}</p>
+                          <p>{sala.Criador}</p>
+                          <p>{sala.Capacidade}</p>
+                        </div>
+                          <button onClick={() => handleOpenEditModal(sala)} className={styles.Editar}>
+                            <img src={Editi} alt="sem foto" width={20} />
+                          </button>
+                          <button onClick={() => removeSala(sala.IdSala)} className={styles.Editar}>
+                            <img src={Delete} alt="sem foto" width={20} />
+                          </button>
+                      </div>
+                    )}
+                </div>
+              ))
+            ) : (
+              <p className={styles.list}>Lista de salas vazia</p>
+            )}
+          </div>
         </div>
+
+        
       </div>
 
       <Modal show={isModalOpen} onHide={handleCloseModal} centered>
@@ -439,6 +441,39 @@ export function Sala() {
           </Button>
           <Button variant="primary" onClick={editSala}>
             Atualizar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={isSearchModalOpen} onHide={closeSearchModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Resultado da Pesquisa</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {salaBuscada !== null ? (
+            <div key={salaBuscada.IdSala} className={styles.CaixaEdicao}>
+              <div className={styles.modalSearch}>
+                <p>Nome Da Sala: {salaBuscada.NomeSala}</p>
+                <p>Funcao Da Sala: {salaBuscada.Funcao}</p>
+                <p>Criador: {salaBuscada.Criador}</p>
+                <p>Capacidade: {salaBuscada.Capacidade}</p>
+              </div>
+              <div>
+                <button onClick={() => handleOpenEditModal(salaBuscada)} className={styles.Editar}>
+                  <img src={Editi} alt="sem foto" width={20} />
+                </button>
+                <button onClick={() => removeSala(salaBuscada.IdSala)} className={styles.Editar}>
+                  <img src={Delete} alt="sem foto" width={20} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p className={styles.list}>Sala não encontrada.</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeSearchModal}>
+            Fechar
           </Button>
         </Modal.Footer>
       </Modal>

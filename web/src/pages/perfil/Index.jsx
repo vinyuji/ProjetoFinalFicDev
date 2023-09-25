@@ -17,13 +17,29 @@ export function Perfil() {
           <h2>Informacoes pessoais</h2>
           <img src={ Editar } alt="sem foto" width={ 30 }/>
         </div>
-        
-        <div className={styles.Senha}>
-        </div>
+        {/* <div className={styles.Pessoais}>
+          <div className={styles.NomeLocal}>
+              <p>{perfil.Nome}</p>
+              <p>{perfil.Email}</p>
+              <p>{perfil.Estado}</p>
+              <p>{perfil.Rua}</p>
+              <p>{perfil.Senha}</p>
+          </div>
+            <div clasName={styles.CepCpf}>
+              <p>{perfil.Cpf}</p>
+              <p>{perfil.Cep}</p>
+              <p>{perfil.cidade}</p>
+            </div>
+        </div>        
         <div className={styles.Extra}>
           <h2>Informacoes Extras</h2>
           <img src={ Editar } alt="sem foto" width={ 30 }/>
         </div>
+        <div className={styles.infosExtras}>
+            <p>{perfil.FormacaoAcademica}</p>
+            <p>{perfil.TempoCurso}</p>
+            <p>{perfil.Especializacao}</p>
+        </div> */}
 
       </div>
     </div>
