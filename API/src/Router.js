@@ -33,7 +33,7 @@ routes.post('/LoginUser', LoginUserController.LoginUser);
 
 // Sala
 routes.get('/sala', SalaController.FindSala);
-routes.get('/sala/:IdSala', SalaController.GetSala );
+routes.get('/sala/:IdSala', SalaController.GetSala);
 routes.delete('/sala/:IdSala', SalaController.DeleteSala);
 routes.put('/sala/:IdSala', SalaController.PutSala);
 routes.post('/sala', SalaController.CreateSala);
