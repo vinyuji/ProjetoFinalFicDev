@@ -21,7 +21,7 @@
 .linha{
     margin-left: 1vh;
     margin-top: 1vw;
-    width: 17vw;
+    width: 16vw;
     border-bottom: 1px solid white;
 }
 .menu{
@@ -38,7 +38,7 @@
     color: white;
 }
 .Sair{
-    margin-top: 30vh;
+    margin-top: 25vh;
     margin-left: 2vw;
     display: flex;
     align-items: center;

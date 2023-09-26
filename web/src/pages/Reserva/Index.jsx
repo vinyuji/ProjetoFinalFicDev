@@ -207,6 +207,15 @@ export function Reserva() {
     });
   };
 
+  function formatarData(data) {
+  const dataObj = new Date(data);
+  const dia = String(dataObj.getDate()).padStart(2, '0');
+  const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // +1 porque os meses começam em 0
+  const ano = dataObj.getFullYear();
+  return `${dia}/${mes}/${ano}`;
+  }
+
+
   return (
     <div className={styles.tudo}>
       <Esquerda></Esquerda>
@@ -254,7 +263,7 @@ export function Reserva() {
                         <div className={styles.CaixaMostrada}>
                           <p>{reserva.IdReserva}</p>
                           <p>{reserva.IdSala}</p>
-                          <p>{reserva.DataReserva}</p>
+                          <p>{formatarData(reserva.DataReserva)}</p>
                           <p>{reserva.Capacidade}</p>
                           <p>{reserva.Cpf}</p>
                         </div>
@@ -283,18 +292,6 @@ export function Reserva() {
           </Modal.Header>
           <Modal.Body>
             <form>
-              {/*
-              <div className="mb-3">
-                <label htmlFor="IdSala" className="form-label">Id sala</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="IdSala"
-                  placeholder="Digite o Id da sala"
-                  value={novaReserva.IdSala}
-                  onChange={(e) => setNovaReserva({ ...novaReserva, IdSala: e.target.value })}
-                />
-            </div>*/}
             <Form.Group className="mb-3">
                 <Form.Label>Seleciona a Sala</Form.Label>
                 <Form.Select onChange={(e) => setNovaReserva({ ...novaReserva, IdSala: e.target.value })}>
@@ -309,7 +306,6 @@ export function Reserva() {
                     ))
                       :<></>}
                 </Form.Select>
-
             </Form.Group>
               <div className="mb-3">
                 <label htmlFor="DataReserva" className="form-label">Data de reserva</label>
@@ -362,17 +358,21 @@ export function Reserva() {
           </Modal.Header>
           <Modal.Body>
             <form>
-              <div className="mb-3">
-                <label htmlFor="IdSala" className="form-label">Id da Sala</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="IdSala"
-                  placeholder="Digite o nome da sala"
-                  value={reservaEditada?.IdSala || ''}
-                  onChange={(e) => handleEditInputChange('IdSala', e.target.value)}
-                />
-              </div>
+            <Form.Group className="mb-3">
+                <Form.Label>Seleciona a Sala</Form.Label>
+                <Form.Select onChange={(e) => setNovaReserva({ ...novaReserva, IdSala: e.target.value })}>
+                  <option disabled>Clique para selecionar</option>
+                  {salas && salas.length > 0
+                    ? salas.map((sala, index) => (
+                      <Option
+                        key={index}
+                        id={sala.IdSala}
+                        nome={sala.NomeSala}
+                        />
+                    ))
+                      :<></>}
+                </Form.Select>
+            </Form.Group>
               <div className="mb-3">
                 <label htmlFor="DataReserva" className="form-label">Data de Reserva</label>
                 <input

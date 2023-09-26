@@ -25,23 +25,25 @@
 }
 .Pesq{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-left: 5vw;
+    margin-left: 10vw;
     margin-right: 5vw;
     margin-top: 5vh;
 }
 .pesquisa{
     display: flex;
     align-items: center;
-    width: 30vw;
+    justify-content: center;
+    width: 55vw;
     height: 5vh;
 }
 .pesquisa input{
     border-radius: 10px 0px 0px 10px;
     border: 2px solid #1A3281;
     height: 5vh;
-    width: 20vw;
+    margin-left: 2vh;
+    width: 15vw;
 }
 .pesquisa button{
     border-radius: 0px 10px 10px 0px;
@@ -55,7 +57,7 @@
     align-items: center;
     justify-content: center;
     height: 5vh;
-    width: 30vw;
+    width: 70vw;
 }
 
 .cadSala button{
@@ -65,7 +67,8 @@
     border-radius: 10px;
     background-color: #1A3281;
     height: 5vh;
-    width: 30vw;
+    margin-left: 3vh;
+    width: 20vw;
 }
 
 .cadSala h3{
