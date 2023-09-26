@@ -71,11 +71,12 @@
 .rodape{
     display: flex;
     justify-content: center;
+    width: 85vw;
 }
 .rodape button{
+    display: flex;
     justify-content: center;
     margin-top: 1vh;
-    margin-left: 10vw;
     width: 30vw;
     height: 6vh;
     border-radius: 10px;
@@ -84,11 +85,92 @@
 .rodape h2{
     color: white;
 }
-.notif{
+.Dash{
     margin-left: 1vw;
     margin-top: 3vh;
     width: 80vw;
     height: 70vh;
     border-radius: 10px;
     border: 2px solid #1A3281;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.NaoDireita{
+    width: 50vw;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.NaoEsquerda{
+    width: 50vw;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.Sala{
+    width: 35vw;
+    height: 29vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 2px solid #1A3281;
+    margin-right: 2vw;
+    margin-left: 2vw;
+    margin-top: 2vw;
+}
+.Reservas{
+    width: 35vw;
+    height: 29vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 2px solid #1A3281;
+    margin-right: 2vw;
+    margin-left: 2vw;
+    margin-bottom: 2vw;
+}
+.Capacidade{
+    width: 35vw;
+    height: 29vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 2px solid #1A3281;
+    margin-right: 2vw;
+    margin-left: 2vw;
+    margin-top: 2vw;
+}
+.Porcentagem{
+    width: 35vw;
+    height: 29vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 2px solid #1A3281;
+    margin-right: 2vw;
+    margin-left: 2vw;
+    margin-bottom: 2vw;
+}
+.Sala h2{
+    margin-top: 5vh;
+}
+.Reservas h2{
+    margin-top: 5vh;
+}
+.Capacidade h2{
+    margin-top: 5vh;
+}
+.Porcentagem h2{
+    margin-top: 5vh;
 }

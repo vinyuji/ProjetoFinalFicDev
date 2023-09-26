@@ -4,7 +4,8 @@ import { Esquerda } from '../../components/Esquerda/Esqueda';
 import Lupa from '../../components/lupa.png';
 import Editi from '../../components/editar.png';
 import Delete from '../../components/delete.png';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Form } from 'react-bootstrap';
+import { Option } from '../../components/Option';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -17,6 +18,7 @@ export function Reserva() {
   const [reservaEditada, setReservaEditada] = useState(null);
   const [reservaBuscada, setReservaBuscada] = useState(null);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [salas, setSalas] = useState([]);
   const [PesquisarId, setPesquisarId] = useState('');
   const [novaReserva, setNovaReserva] = useState({
     IdSala: '',
@@ -56,9 +58,19 @@ export function Reserva() {
   };
 
   useEffect(() => {
+    fetchSalas();
     fetchReservas();
   }, []);
 
+  async function fetchSalas() {
+    try {
+      const result = await fetch(`${API_URL}/sala`, { method: 'GET' });
+      const salaData = await result.json();
+      setSalas(salaData);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   async function fetchReservas() {
     try {
       const response = await fetch(`${API_URL}/reserva`, {
@@ -259,7 +271,7 @@ export function Reserva() {
                 </div>
               ))
             ) : (
-              <p className={styles.list}>Lista de salas vazia</p>
+              <p className={styles.list}>Lista de reservas vazia</p>
             )}
           </div>
         </div>
@@ -271,6 +283,7 @@ export function Reserva() {
           </Modal.Header>
           <Modal.Body>
             <form>
+              {/*
               <div className="mb-3">
                 <label htmlFor="IdSala" className="form-label">Id sala</label>
                 <input
@@ -281,7 +294,23 @@ export function Reserva() {
                   value={novaReserva.IdSala}
                   onChange={(e) => setNovaReserva({ ...novaReserva, IdSala: e.target.value })}
                 />
-              </div>
+            </div>*/}
+            <Form.Group className="mb-3">
+                <Form.Label>Seleciona a Sala</Form.Label>
+                <Form.Select onChange={(e) => setNovaReserva({ ...novaReserva, IdSala: e.target.value })}>
+                  <option disabled>Clique para selecionar</option>
+                  {salas && salas.length > 0
+                    ? salas.map((sala, index) => (
+                      <Option
+                        key={index}
+                        id={sala.IdSala}
+                        nome={sala.NomeSala}
+                        />
+                    ))
+                      :<></>}
+                </Form.Select>
+
+            </Form.Group>
               <div className="mb-3">
                 <label htmlFor="DataReserva" className="form-label">Data de reserva</label>
                 <input
@@ -329,7 +358,7 @@ export function Reserva() {
 
       <Modal show={isEditModalOpen} onHide={handleCloseEditModal} centered>
           <Modal.Header closeButton>
-            <Modal.Title>Editar Sala</Modal.Title>
+            <Modal.Title>Editar Reserva</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <form>
