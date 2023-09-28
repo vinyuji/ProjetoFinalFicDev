@@ -14,7 +14,6 @@ class SalaController {
         }
     };
 
-    // Obter uma Sala por ID
     async GetReserva (req, res){
         try {
             const { IdReserva } = req.params;
