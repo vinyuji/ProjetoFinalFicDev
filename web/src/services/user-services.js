@@ -12,7 +12,18 @@ export async function registerUser(data) {
         }
     }
 }
-
+export async function userLogado(token) {
+    try {
+        const result = await api.post(`/userLogged`, {
+          token: token
+        });
+        return result
+    } catch (error) {
+        return {
+            message: error.response.data.error
+        }
+    }
+}
 export async function loginUser(data) {
     try {
         const result = await api.post('/LoginUser', data);

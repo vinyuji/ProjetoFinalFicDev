@@ -30,6 +30,7 @@ routes.put('/upDadosUser/:Cpf', authMiddleware, UpdateUserDadosController.Update
 routes.put('/upFormacaoUser/:Cpf', authMiddleware, UpdateUserFormacaoController.UpdateUserFormacao);
 routes.put('/upSenhaUser/:Cpf', authMiddleware,  UpdateUserSenhaController.UpdatePassword);
 routes.post('/LoginUser', LoginUserController.LoginUser);
+routes.post('/userLogged', LoginUserController.GetLogin);
 
 // Sala
 routes.get('/sala', SalaController.FindSala);

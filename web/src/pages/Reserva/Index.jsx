@@ -71,6 +71,7 @@ export function Reserva() {
       console.error(error);
     }
   }
+  
   async function fetchReservas() {
     try {
       const response = await fetch(`${API_URL}/reserva`, {

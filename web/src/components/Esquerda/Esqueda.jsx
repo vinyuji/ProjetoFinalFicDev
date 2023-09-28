@@ -18,7 +18,7 @@ export function Esquerda(){
         <h1 className={styles.menu}>Menu</h1>
         <div className={styles.opcoes}>
           <Link to="/Home"><h3> DashBoard </h3></Link>
-          {/* <Link to="/Perfil"  ><h3> Perfil</h3></Link> */}
+          <Link to="/Perfil"  ><h3> Perfil</h3></Link>
           <Link to="/Sala"><h3>Sala</h3></Link>
           <Link to="/Reserva"><h3>Reserva</h3></Link>
         </div>

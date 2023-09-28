@@ -15,9 +15,10 @@ export function Login() {
   const onSubmit = async (data) => {
     try {
       const user = await loginUser(data);
-      console.log(user)
+      console.log(user);
       console.log(user.data.accessToken)
       if (user) {
+        localStorage.setItem('Cpf', user.data.Cpf);
         sessionStorage.setItem('token', user.data.accessToken);
         navigate('/Home');
       } else {
@@ -25,7 +26,7 @@ export function Login() {
       }
     } catch (error) {
       setResult('Erro ao fazer login');
-      console.error('Erro ao fazer login:', error);
+      alert('Erro ao fazer login:', error);
     }
   }
 
@@ -42,21 +43,17 @@ export function Login() {
           >
               <Input
                 className="mb-4"
-                label="E-mail"
+                label="Cpf"
                 type="text"
-                placeholder="Insira seu e-mail"
-                error={errors.email}
+                placeholder="Insira seu Cpf"
+                error={errors.Cpf}
                 required={true}
-                name="Email"
-                validations={register('Email', {
+                name="Cpf"
+                validations={register('Cpf', {
                   required: {
                     value: true,
-                    message: 'E-mail é obrigatório'
+                    message: 'Cpf é obrigatório'
                   },
-                  pattern: {
-                    value: /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i,
-                    message: 'E-mail inválido!'
-                  }
                 })}
               />
               <Input
