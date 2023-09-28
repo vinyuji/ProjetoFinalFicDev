@@ -87,10 +87,20 @@
 .lista{
     margin-top: 5vh;
     margin-left: 1vw;
-    padding-right: 10vw;
+    padding-right: 5vw;
     display: flex;
     width: 78vw;
-    justify-content: space-between;
+}
+.lista div{
+    display: flex;
+    width: 15vw;
+    margin-right:1vw;
+}
+.lista h3{
+    width: 15vw;
+}
+.listaId h3{
+    width: 10vw;
 }
 
 .amostra{
@@ -137,6 +147,7 @@
     width: 72vw;  
 }
 .CaixaMostrada p{
+    height: 5vh;
     display: flex;
     align-items: center;
     justify-content: center;

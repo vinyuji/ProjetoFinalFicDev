@@ -78,11 +78,18 @@
 }
 .lista{
     margin-top: 5vh;
-    margin-left: 1vw;
+    margin-left: 2vw;
     padding-right: 10vw;
     display: flex;
     width: 78vw;
-    justify-content: space-between;
+}
+.lista div{
+    display: flex;
+    width: 20vw;
+    margin-right: 6vw;
+}
+.lista h3{
+    width: 15vw;
 }
 .amostra{
     margin-top: 5vh;
@@ -140,3 +147,4 @@
 .modalSearch p {
     margin: 2vw;
 }
+

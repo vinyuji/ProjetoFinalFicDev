@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { SalaModel } = require ('../../model/SalaModel.js');
 
 // Sala
@@ -19,6 +20,29 @@ class SalaController {
         try {
             const { IdSala } = req.params;
             const sala = await SalaModel.findByPk(IdSala);
+            if (!sala) {
+                return res.status(404).json({
+                    error: 'Sala não foi encontrada!'
+                });
+            }
+            return res.status(200).json(sala);
+        } catch (error) {
+            return res.status(500).json({
+                error: `Erro interno! ${error}`
+            });
+        }
+    };
+
+    // Obter uma Sala por NomeSala
+    async GetNomeSala (req, res){
+        try {
+            const { NomeSala } = req.params;
+            console.log("Nome: ", NomeSala.NomeSala);
+            const sala = await SalaModel.findAll({
+                where: {
+                  NomeSala
+                },
+              });
             if (!sala) {
                 return res.status(404).json({
                     error: 'Sala não foi encontrada!'

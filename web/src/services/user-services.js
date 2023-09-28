@@ -24,6 +24,8 @@ export async function userLogado(token) {
         }
     }
 }
+
+  
 export async function loginUser(data) {
     try {
         const result = await api.post('/LoginUser', data);

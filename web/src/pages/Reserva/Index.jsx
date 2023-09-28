@@ -244,11 +244,21 @@ export function Reserva() {
           </div>
         </div>
         <div className={styles.lista}>
-          <h2>Is reserva</h2>
-          <h2>Id sala</h2>
-          <h2>Data reserva</h2>
-          <h2>Capacidade</h2>
-          <h2>Id reservador</h2>
+          <div>
+            <h3>Id reserva</h3>
+          </div>
+          <div className={styles.listaId}>
+            <h3>Id sala</h3>
+          </div>
+          <div>
+            <h3>Data reserva</h3>
+          </div>
+          <div>
+            <h3>Capacidade</h3>
+          </div>
+          <div>
+            <h3>Id reservador</h3>
+          </div>
         </div>
         <div className={styles.linha1}></div>
         <div className={styles.lista2}>

@@ -70,22 +70,23 @@ export function Home() {
         <div className={styles.Dash}>
           <div className={styles.NaoDireita}>
             <div className={styles.Sala}>
-              <h1>Total de salas</h1>
-              <h2>{contarSalas()}</h2>
+              <h2>Total de salas</h2>
+              <h1>{contarSalas()}</h1>
             </div>
             <div className={styles.Reservas}>
-              <h1>Total de Reservas</h1>
-              <h2>{contarReservas()}</h2>
+              <h2>Total de Reservas</h2>
+              <h1>{contarReservas()}</h1>
             </div>
           </div>
           <div className={styles.NaoEsquerda}>
             <div className={styles.Capacidade}>
-              <h1>Capacidade total das salas</h1>
-              <h2>{capacidadeTotal}</h2>
+              <h2>Capacidade total das salas</h2>
+              <h1>{capacidadeTotal}</h1>
             </div>
             <div className={styles.Porcentagem}>
-              <h1>Porcentagem de salas reservadas</h1>
-              <h2>{calcularPorcentagemReservas()}%</h2>
+              <h2>Porcentagem de salas</h2>
+              <h2>reservadas</h2>
+              <h1>{calcularPorcentagemReservas()}%</h1>
             </div>
           </div>
         </div>

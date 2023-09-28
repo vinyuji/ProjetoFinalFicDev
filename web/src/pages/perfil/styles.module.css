@@ -11,13 +11,12 @@
 .header h1{
     margin-left: 3vw;
     margin-top:  7vh;
-    color: black;
 }
 .linha1{
     margin-left: 1vw;
     margin-top: 3vh;
     width: 80vw;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid #1A3281;
 }
 .informacoes{
     margin-top: 2vh;
@@ -27,15 +26,30 @@
     flex-direction: column;
 }
 .informacoes h2{
+    margin-left:  2vw;
     margin-right: 2vw;
 }
 .blocos {
     display: flex;
     border: 2px solid #1A3281;
-    width: 20vw;
+    width: 30vw;
+    border-radius: 10px;
+    padding-left: 1vw;
+    padding-top: 0.5vw;
+    padding-bottom: 0.5vw;
 }
 .header2{
     display: flex;
     align-items: center;
-    
 }
+
+.Mostra{
+    margin-top: 2vw;
+}
+.Infos{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5vh;
+    margin-left: 2vw;
+}
+

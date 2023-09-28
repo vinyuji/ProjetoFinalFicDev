@@ -29,7 +29,7 @@
     margin-left: 1vh;
     margin-top: 3vw;
     width: 17vw;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid #1A3281;
 }
 .menu{
     display: flex;
@@ -60,18 +60,17 @@
 .header h1{
     margin-left: 3vw;
     margin-top:  7vh;
-    color: black;
 }
 .linha1{
     margin-left: 1vw;
     margin-top: 3vh;
     width: 80vw;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid #1A3281;
 }
 .rodape{
     display: flex;
     justify-content: center;
-    width: 85vw;
+    width: 80vw;
 }
 .rodape button{
     display: flex;
@@ -95,6 +94,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #1A3281;
 }
 .NaoDireita{
     width: 50vw;
@@ -122,6 +122,7 @@
     margin-right: 2vw;
     margin-left: 2vw;
     margin-top: 2vw;
+    background-color: white;
 }
 .Reservas{
     width: 35vw;
@@ -135,6 +136,7 @@
     margin-right: 2vw;
     margin-left: 2vw;
     margin-bottom: 2vw;
+    background-color: white;
 }
 .Capacidade{
     width: 35vw;
@@ -148,6 +150,7 @@
     margin-right: 2vw;
     margin-left: 2vw;
     margin-top: 2vw;
+    background-color: white;
 }
 .Porcentagem{
     width: 35vw;
@@ -161,16 +164,17 @@
     margin-right: 2vw;
     margin-left: 2vw;
     margin-bottom: 2vw;
+    background-color: white;
 }
-.Sala h2{
-    margin-top: 5vh;
+.Sala h1{
+    margin-top: 3vh;
 }
-.Reservas h2{
-    margin-top: 5vh;
+.Reservas h1{
+    margin-top: 3vh;
 }
-.Capacidade h2{
-    margin-top: 5vh;
+.Capacidade h1{
+    margin-top: 3vh;
 }
-.Porcentagem h2{
-    margin-top: 5vh;
+.Porcentagem h1{
+    margin-top: 3vh;
 }
