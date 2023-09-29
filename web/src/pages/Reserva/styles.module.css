@@ -144,14 +144,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 72vw;  
+    width: 72vw;
+    margin-bottom: 1vh;  
 }
 .CaixaMostrada p{
     height: 5vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 3vh;
+    margin: 2vh;
 }
 .modalSearch{
     width: 72vw;

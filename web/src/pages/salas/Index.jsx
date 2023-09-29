@@ -25,6 +25,7 @@ export function Sala() {
   });
   const [PesquisarId, setPesquisarId] = useState('');
   const [PesquisarNome, setPesquisarNome] = useState('');
+  const [NomePesquisado, setNomePesquisado] = useState('');
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   useEffect(() => {
@@ -89,29 +90,6 @@ export function Sala() {
       console.error('Ocorreu um erro ao buscar a sala', error);
     }
   }
-  
-  async function buscarSalaPorNome(nomeSala) {
-    if (!nomeSala) {
-      return;
-    }
-  
-    try {
-      const response = await fetch(`${API_URL}/sala?NomeSala=${nomeSala}`, {
-        method: 'GET',
-      });
-  
-      if (response.status === 200) {
-        const salasEncontradas = await response.json();
-        setSalas(salasEncontradas);
-      } else if (response.status === 404) {
-        alert('Nenhuma sala encontrada com esse nome.');
-      } else {
-        console.error('Ocorreu um erro ao buscar salas por nome.');
-      }
-    } catch (error) {
-      console.error('Ocorreu um erro ao buscar salas por nome.', error);
-    }
-  }
 
 
   async function editSala() {
@@ -140,6 +118,7 @@ export function Sala() {
         );
         setIsEditModalOpen(false); // Fechar o modal de edição
         setSalaEditada(null); // Limpar o estado salaEditada
+        fetchSalas()
       } else {
         alert(salaEditadaData.error);
       }
@@ -151,7 +130,7 @@ export function Sala() {
   async function createSala() {
     try {
       if (!novaSala.NomeSala || !novaSala.Funcao || !novaSala.Criador) {
-        alert('O nome, a função e o nome do criador são obrigatórios');
+        alert('O nome, a área e o nome do criador são obrigatórios');
         return;
       }
 
@@ -222,6 +201,10 @@ export function Sala() {
     });
   };
 
+  const ListarNome = () =>{
+    setPesquisarNome(NomePesquisado);
+  }
+
   return (
     <div className={styles.tudo}>
       <Esquerda></Esquerda>
@@ -246,10 +229,10 @@ export function Sala() {
             <input
               type="text"
               placeholder='Pesquisar por Nome'
-              value={PesquisarNome}
-              onChange={(e) => setPesquisarNome(e.target.value)}
+              value={NomePesquisado}
+              onChange={(e) => setNomePesquisado(e.target.value)}
             />
-            <button type='button' onClick={() => buscarSalaPorNome(PesquisarNome)}>
+            <button type='button' onClick={() => {ListarNome()}}>
               <img src={Lupa} alt="sem foto" width={30} />
             </button>
           </div>
@@ -277,11 +260,11 @@ export function Sala() {
         <div className={styles.lista2}>
           <div className={styles.scrollContainer}>
             {salas.length > 0 ? (
-              salas.map((sala) => (
-                <div key={sala.IdSala} className={styles.SalaItem}>
-                  {salaEditada === sala ? (
-                    <div className={styles.CaixaEdicao}></div>
-                  ) : (
+              salas.map((sala) => {
+                if (
+                  (PesquisarNome === '' || sala.NomeSala.toLowerCase().includes(PesquisarNome.toLowerCase()))
+                ) {
+                  return(
                     <div className={styles.CaixaEdicao}>
                       <div className={styles.CaixaMostrada}>
                         <div>
@@ -304,9 +287,12 @@ export function Sala() {
                         <img src={Delete} alt="sem foto" width={20} />
                       </button>
                     </div>
-                  )}
-                </div>
-              ))
+                  )
+                }
+
+              return null
+              } 
+              )
             ) : (
               <p className={styles.list}>Lista de salas vazia</p>
             )}
@@ -332,24 +318,13 @@ export function Sala() {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="Funcao" className="form-label">Função</label>
+              <label htmlFor="Funcao" className="form-label">Área</label>
               <input
                 type="text"
                 className="form-control"
                 name="Funcao"
-                placeholder="Digite a função da sala"
+                placeholder="Digite a área da sala"
                 value={novaSala.Funcao}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="TipoSala" className="form-label">Tipo da Sala</label>
-              <input
-                type="text"
-                className="form-control"
-                name="TipoSala"
-                placeholder="Digite o tipo da sala"
-                value={novaSala.TipoSala}
                 onChange={handleInputChange}
               />
             </div>
@@ -425,50 +400,6 @@ export function Sala() {
                 placeholder="Digite a função da sala"
                 value={salaEditada?.Funcao || ''}
                 onChange={(e) => handleEditInputChange('Funcao', e.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="TipoSala" className="form-label">Tipo da Sala</label>
-              <input
-                type="text"
-                className="form-control"
-                name="TipoSala"
-                placeholder="Digite o tipo da sala"
-                value={salaEditada?.TipoSala || ''}
-                onChange={(e) => handleEditInputChange('TipoSala', e.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="NumeroSala" className="form-label">Número da Sala</label>
-              <input
-                type="text"
-                className="form-control"
-                name="NumeroSala"
-                placeholder="Digite o número da sala"
-                value={salaEditada?.NumeroSala || ''}
-                onChange={(e) => handleEditInputChange('NumeroSala', e.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="Capacidade" className="form-label">Capacidade</label>
-              <input
-                type="number"
-                className="form-control"
-                name="Capacidade"
-                placeholder="Digite a capacidade da sala"
-                value={salaEditada?.Capacidade || ''}
-                onChange={(e) => handleEditInputChange('Capacidade', e.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="Criador" className="form-label">Criador</label>
-              <input
-                type="text"
-                className="form-control"
-                name="Criador"
-                placeholder="Digite o Criador da sala"
-                value={salaEditada?.Criador || ''}
-                onChange={(e) => handleEditInputChange('Criador', e.target.value)}
               />
             </div>
           </form>

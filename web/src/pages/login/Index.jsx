@@ -25,7 +25,6 @@ export function Login() {
         setResult('Erro de autenticação');
       }
     } catch (error) {
-      setResult('Erro ao fazer login');
       alert('Erro ao fazer login:', error);
     }
   }
@@ -85,7 +84,7 @@ export function Login() {
       </div>
       <div className={styles.direita}>
         <div className={styles.logo}>
-          <img src={imagem} alt="Sem foto" width={60} />
+          <img src={imagem} alt="Sem foto" width={70} />
           <div className={styles.nome}>
             <h1>Gestão</h1>
             <h2>de Sala</h2>

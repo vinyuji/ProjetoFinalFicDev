@@ -132,7 +132,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 72vw;  
+    width: 72vw; 
+    margin-bottom: 1vh; 
 }
 .CaixaMostrada p{
     display: flex;

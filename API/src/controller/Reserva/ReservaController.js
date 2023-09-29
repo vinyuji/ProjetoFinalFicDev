@@ -90,7 +90,7 @@ class SalaController {
                 Funcao, 
                 DataReserva,
                 Cpf,
-                Capacidade
+                Capacidade,
             });
             return res.status(201).json(NovaReserva);
         } catch (error) {

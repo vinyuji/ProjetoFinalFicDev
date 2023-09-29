@@ -8,7 +8,7 @@ const { SalaModel } = require('../model/SalaModel');
 
 
 // Iniciando a conexão ao banco de dados
-const database = new Sequelize('postgres://postgres:120521batata@localhost:5432/projetoFinal');
+const database = new Sequelize('postgres://postgres:123batata@localhost:5432/projetoFinal');
 
 // Iniciando os models
 UserModel.init(database);

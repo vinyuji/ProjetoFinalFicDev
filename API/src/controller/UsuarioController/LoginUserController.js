@@ -16,7 +16,7 @@ class LoginUserController {
 
             console.log(user);
             const ExistingUser = await UserModel.findOne({
-                where: { Cpf: user.cpf }
+                where: { Cpf: user.Cpf }
             });
             
             return response.status(200).json({ ExistingUser });
@@ -61,9 +61,9 @@ class LoginUserController {
 
             // Gera e retorna o access token
             const accessToken = jwt.sign(
-                { cpf: ExistingUser.Cpf},
+                { Cpf: ExistingUser.Cpf},
                 process.env.TOKEN_SECRET,
-                { expiresIn: '1h' }
+                { expiresIn: '5h' }
             );
             console.log("ok", accessToken)
             return response.status(200).json({ accessToken });

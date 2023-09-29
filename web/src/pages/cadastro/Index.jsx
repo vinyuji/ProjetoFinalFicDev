@@ -18,6 +18,7 @@ export function Cadastro() {
       setResult(user);
       console.log(result)
       if (user) {
+        localStorage.setItem('Cpf', user.data.Cpf);
         sessionStorage.setItem('token', user.data.accessToken);
         navigate('/Home');
       } else {
@@ -35,7 +36,7 @@ export function Cadastro() {
     <div className={styles.tudo}>
       <div className={styles.esquerda}>
         <div className={styles.logo}>
-          <img src={imagem} alt="Sem foto" width={60} />
+          <img src={imagem} alt="Sem foto" width={70} />
           <div className={styles.nome}>
             <h1>Gestao</h1>
             <h2>de Sala</h2>
@@ -89,7 +90,7 @@ export function Cadastro() {
             <div className={styles.Cadastrar}>
               <button type='submit' >Cadastrar</button>
             </div>
-
+            {/* {result.length > 0 ? result : ''} */}
             <div className={styles.likedin}>
                 <Link to="/" >Já tenho uma conta</Link>
               </div>

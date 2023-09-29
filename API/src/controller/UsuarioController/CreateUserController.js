@@ -69,11 +69,11 @@ class CreateUserController {
         TempoDeCurso,
         Especializacao,
       });
-
+      console.log(newUser);
       const accessToken = jwt.sign(
                 { Cpf: newUser.Cpf },
                 process.env.TOKEN_SECRET,
-                { expiresIn: '1h' }
+                { expiresIn: '5h' }
       );
       console.log(accessToken);
       return response.status(201).json({ accessToken });

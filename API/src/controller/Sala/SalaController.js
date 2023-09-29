@@ -33,29 +33,6 @@ class SalaController {
         }
     };
 
-    // Obter uma Sala por NomeSala
-    async GetNomeSala (req, res){
-        try {
-            const { NomeSala } = req.params;
-            console.log("Nome: ", NomeSala.NomeSala);
-            const sala = await SalaModel.findAll({
-                where: {
-                  NomeSala
-                },
-              });
-            if (!sala) {
-                return res.status(404).json({
-                    error: 'Sala não foi encontrada!'
-                });
-            }
-            return res.status(200).json(sala);
-        } catch (error) {
-            return res.status(500).json({
-                error: `Erro interno! ${error}`
-            });
-        }
-    };
-
     //deletetar Sala
     async DeleteSala(req, res) {
         try {
@@ -89,8 +66,8 @@ class SalaController {
                 });
             }
             await salaExistente.update({
-                NomeSala,
-                Funcao,
+                NomeSala: NomeSala,
+                Funcao: Funcao,
             });
             return res.status(200).json(salaExistente);
         } catch (error) {
@@ -103,11 +80,10 @@ class SalaController {
     // Criar Sala
     async CreateSala  (req, res) {
         try {
-            const { NomeSala, Funcao, TipoSala, NumeroSala, Capacidade, Criador } = req.body;
+            const { NomeSala, Funcao, NumeroSala, Capacidade, Criador } = req.body;
             const NovaSala = await SalaModel.create({
                 NomeSala, 
                 Funcao, 
-                TipoSala, 
                 NumeroSala, 
                 Capacidade, 
                 Criador 

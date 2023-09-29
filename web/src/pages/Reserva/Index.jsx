@@ -147,6 +147,10 @@ export function Reserva() {
 
   async function CreateReserva() {
     try {
+      if( !novaReserva.IdSala || !novaReserva.Cpf || !novaReserva.Capacidade ){
+        alert('Precisa selecionar a sala; O Cpf é obrigatório; Capacidade é obrigatório');
+        return;
+      }
       const response = await fetch(`${API_URL}/reserva`, {
         method: 'POST',
         headers: {
@@ -160,8 +164,6 @@ export function Reserva() {
         alert('Reserva criada com sucesso!');
         setNovaReserva({
           IdSala: '',
-          FuncaoSala: '',
-          NumeroSala: '',
           DataReserva: '',
           Capacidade: '',
           Cpf: '',
@@ -438,7 +440,7 @@ export function Reserva() {
             <div key={reservaBuscada.IdReserva} className={styles.CaixaEdicao}>
               <div className={styles.modalSearch}>
                 <p>IdSala: {reservaBuscada.IdSala}</p>
-                <p>Data de Reserva: {reservaBuscada.DataReserva}</p>
+                <p>Data de Reserva: {formatarData(reservaBuscada.DataReserva)}</p>
                 <p>Reservador: {reservaBuscada.Cpf}</p>
                 <p>Capacidade: {reservaBuscada.Capacidade}</p>
               </div>
