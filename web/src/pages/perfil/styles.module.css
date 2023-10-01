@@ -6,11 +6,14 @@
     display: flex;
 }
 .direita{
-    width: 72vw;
+    width: 85vw;
 }
-.header h1{
-    margin-left: 3vw;
-    margin-top:  7vh;
+.header h2{
+    margin-left: 1vw;
+    margin-top:  5vh;
+}
+.header3 {
+    margin: 2vw
 }
 .linha1{
     margin-left: 1vw;
@@ -51,5 +54,9 @@
     justify-content: space-between;
     margin-top: 5vh;
     margin-left: 2vw;
+}
+.infosGerais{
+    margin-top: 5vh;
+    margin-left: 1vw;
 }
 

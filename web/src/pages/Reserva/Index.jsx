@@ -204,18 +204,18 @@ export function Reserva() {
 
 
   const handleEditInputChange = (field, value) => {
-    setReservaEditada({
-      ...reservaEditada,
-      [field]: value,
-    });
-  };
+      setReservaEditada({
+        ...reservaEditada,
+        [field]: value,
+      });
+    };
 
-  function formatarData(data) {
-  const dataObj = new Date(data);
-  const dia = String(dataObj.getDate()).padStart(2, '0');
-  const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // +1 porque os meses começam em 0
-  const ano = dataObj.getFullYear();
-  return `${dia}/${mes}/${ano}`;
+    function formatarData(data) {
+    const dataObj = new Date(data);
+    const dia = String(dataObj.getDate()).padStart(2, '0');
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // +1 porque os meses começam em 0
+    const ano = dataObj.getFullYear();
+    return `${dia}/${mes}/${ano}`;
   }
 
 
@@ -245,58 +245,46 @@ export function Reserva() {
             </button>
           </div>
         </div>
-        <div className={styles.lista}>
-          <div>
-            <h3>Id reserva</h3>
-          </div>
-          <div className={styles.listaId}>
-            <h3>Id sala</h3>
-          </div>
-          <div>
-            <h3>Data reserva</h3>
-          </div>
-          <div>
-            <h3>Capacidade</h3>
-          </div>
-          <div>
-            <h3>Id reservador</h3>
-          </div>
-        </div>
-        <div className={styles.linha1}></div>
-        <div className={styles.lista2}>
-          <div className={styles.scrollContainer}>
+        <div style={{ maxHeight: '67vh', overflowY: 'auto', marginTop: '5vh', marginLeft:'2vw', width:'78vw'}}>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Id reserva</th>
+                <th scope="col">IdSala</th>
+                <th scope="col">Data reserva</th>
+                <th scope="col">Capacidade</th>
+                <th scope="col">Id reservador</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
               {reservas.length > 0 ? (
-                reservas.map((reserva) => (
-                  <div key={reserva.IdReserva} className={styles.ReservaItem}>
-                    {reservaEditada === reserva ? (
-                      <div className={styles.CaixaEdicao}>
-                      </div>
-                    ) : (
-                      <div className={styles.CaixaEdicao}>
-                        <div className={styles.CaixaMostrada}>
-                          <p>{reserva.IdReserva}</p>
-                          <p>{reserva.IdSala}</p>
-                          <p>{formatarData(reserva.DataReserva)}</p>
-                          <p>{reserva.Capacidade}</p>
-                          <p>{reserva.Cpf}</p>
-                        </div>
-                        <div>
-                          <button onClick={() => handleOpenEditModal(reserva)} className={styles.Editar}>
-                            <img src={Editi} alt="sem foto" width={20} />
-                          </button>
-                          <button onClick={() => deleteReserva(reserva.IdReserva)} className={styles.Editar}>
-                            <img src={Delete} alt="sem foto" width={20} />
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                </div>
-              ))
-            ) : (
-              <p className={styles.list}>Lista de reservas vazia</p>
-            )}
-          </div>
-        </div>
+                reservas.map((reserva) => {
+                  return (
+                    <tr key={reserva.IdReserva}>
+                      <td>{reserva.IdReserva}</td>
+                      <td>{reserva.IdSala}</td>
+                      <td>{formatarData(reserva.DataReserva)}</td>
+                      <td>{reserva.Capacidade}</td>
+                      <td>{reserva.Cpf}</td>
+                      <td>
+                        <button onClick={() => handleOpenEditModal(reserva)} className={styles.Editar}>
+                          <img src={Editi} alt="sem foto" width={20} />
+                        </button>
+                        <button onClick={() => deleteReserva(reserva.IdReserva)} className={styles.Editar}>
+                          <img src={Delete} alt="sem foto" width={20} />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="5">Lista de reservas vazia</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
 
         <Modal show={isModalOpen} onHide={handleCloseModal} centered>
@@ -444,25 +432,25 @@ export function Reserva() {
                 <p>Reservador: {reservaBuscada.Cpf}</p>
                 <p>Capacidade: {reservaBuscada.Capacidade}</p>
               </div>
-              <div>
-                <button onClick={() => handleOpenEditModal(reservaBuscada)} className={styles.Editar}>
-                  <img src={Editi} alt="sem foto" width={20} />
-                </button>
-                <button onClick={() => deleteReserva(reservaBuscada.IdSala)} className={styles.Editar}>
-                  <img src={Delete} alt="sem foto" width={20} />
-                </button>
-              </div>
             </div>
           ) : (
             <p className={styles.list}>Sala não encontrada.</p>
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={closeSearchModal}>
+          <Button variant="secondary" onClick={() => handleOpenEditModal(reservaBuscada)} className={styles.EditarModal}>
+            <img src={Editi} alt="sem foto" width={20} />
+          </Button>
+          <Button variant="secondary" onClick={() => deleteReserva(reservaBuscada.IdSala)} className={styles.EditarModal}>
+            <img src={Delete} alt="sem foto" width={20} />
+          </Button>
+          <Button variant="secondary" onClick={closeSearchModal} className={styles.Fechar}>
             Fechar
           </Button>
         </Modal.Footer>
       </Modal>
     </div>
+  </div>
+
   );
 }

@@ -27,7 +27,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 10vw;
+    margin-left: 8vw;
     margin-right: 5vw;
     margin-top: 5vh;
 }
@@ -68,7 +68,7 @@
     background-color: #1A3281;
     height: 5vh;
     margin-left: 3vh;
-    width: 20vw;
+    width: 25vw;
 }
 
 .cadSala h3{
@@ -76,64 +76,27 @@
     height: 4vh;
     color: white;
 }
-.lista{
-    margin-top: 5vh;
-    margin-left: 2vw;
-    padding-right: 10vw;
-    display: flex;
-    width: 78vw;
-}
-.lista div{
-    display: flex;
-    width: 20vw;
-    margin-right: 6vw;
-}
-.lista h3{
-    width: 15vw;
-}
-.amostra{
-    margin-top: 5vh;
-    margin-left: 2vw;
-    display: flex;
-    width: 78vw;
-    justify-content: space-between;
-}
+
 .Editar{
+    background-color: transparent;
+}
+
+.EditarModal{
     background-color: white;
 }
+
 .lista2 {
-    width: 80vw;
-    height: 55vh;
-    margin-left: 1vw;
-    margin-top: 2vh;
-    display: flex;
-    flex-direction: column;
-    border-radius: 5px;
     border: 2px solid #1A3281;
-    overflow: hidden;
-  }
-  
-  .scrollContainer {
-    flex: 1; 
-    overflow-y: auto;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
   }
+  
 .CaixaEdicao{
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 2vh;
-}
-.CaixaMostrada{
-    border-radius: 10px;
-    border: 2px solid #1A3281;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 72vw; 
-    margin-bottom: 1vh; 
 }
 .CaixaMostrada p{
     display: flex;
@@ -143,9 +106,8 @@
 }
 .modalSearch{
     width: 72vw;
-    border: 2px solid #1A3281;
 }
-.modalSearch p {
-    margin: 2vw;
+.Fechar{
+    background-color: #1A3281;
 }
 

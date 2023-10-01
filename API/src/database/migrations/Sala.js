@@ -19,10 +19,6 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      TipoSala: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
       NumeroSala: {
         type: Sequelize.TEXT,
         allowNull: false,

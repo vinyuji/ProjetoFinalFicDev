@@ -5,7 +5,6 @@ import Lupa from '../../components/lupa.png';
 import Editi from '../../components/editar.png';
 import Delete from '../../components/delete.png';
 import { Modal, Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const API_URL = 'http://localhost:8080';
 
@@ -91,7 +90,6 @@ export function Sala() {
     }
   }
 
-
   async function editSala() {
     try {
       const result = await fetch(`${API_URL}/sala/${salaEditada.IdSala}`, {
@@ -118,7 +116,7 @@ export function Sala() {
         );
         setIsEditModalOpen(false); // Fechar o modal de edição
         setSalaEditada(null); // Limpar o estado salaEditada
-        fetchSalas()
+        fetchSalas();
       } else {
         alert(salaEditadaData.error);
       }
@@ -148,7 +146,6 @@ export function Sala() {
         setNovaSala({
           NomeSala: '',
           Funcao: '',
-          TipoSala: '',
           NumeroSala: '',
           Capacidade: '',
           Criador: '',
@@ -201,9 +198,9 @@ export function Sala() {
     });
   };
 
-  const ListarNome = () =>{
+  const filtrarPorNome = () => {
     setPesquisarNome(NomePesquisado);
-  }
+  };
 
   return (
     <div className={styles.tudo}>
@@ -221,7 +218,7 @@ export function Sala() {
               value={PesquisarId}
               onChange={(e) => setPesquisarId(e.target.value)}
             />
-            <button type='button' onClick={() => {buscarSalaPorId(); openSearchModal();}}>
+            <button type='button' onClick={() => { buscarSalaPorId(); openSearchModal(); }}>
               <img src={Lupa} alt="sem foto" width={30} />
             </button>
           </div>
@@ -232,7 +229,7 @@ export function Sala() {
               value={NomePesquisado}
               onChange={(e) => setNomePesquisado(e.target.value)}
             />
-            <button type='button' onClick={() => {ListarNome()}}>
+            <button type='button' onClick={filtrarPorNome}>
               <img src={Lupa} alt="sem foto" width={30} />
             </button>
           </div>
@@ -242,210 +239,200 @@ export function Sala() {
             </button>
           </div>
         </div>
-        <div className={styles.lista}>
-          <div>
-            <h3>Sala criada</h3>
-          </div>
-          <div>
-            <h3>IdSala</h3>
-          </div>
-          <div>
-            <h3>Criador</h3>
-          </div>
-          <div>
-            <h3>Capacidade</h3>
-          </div>
-        </div>
-        <div className={styles.linha1}></div>
-        <div className={styles.lista2}>
-          <div className={styles.scrollContainer}>
-            {salas.length > 0 ? (
-              salas.map((sala) => {
-                if (
-                  (PesquisarNome === '' || sala.NomeSala.toLowerCase().includes(PesquisarNome.toLowerCase()))
-                ) {
-                  return(
-                    <div className={styles.CaixaEdicao}>
-                      <div className={styles.CaixaMostrada}>
-                        <div>
-                          <p>{sala.NomeSala}</p>
-                        </div>
-                        <div>
-                          <p>{sala.IdSala}</p>
-                        </div>
-                        <div>
-                          <p>{sala.Criador}</p>
-                        </div>
-                        <div>
-                          <p>{sala.Capacidade}</p>
-                        </div>
-                      </div>
-                      <button onClick={() => handleOpenEditModal(sala)} className={styles.Editar}>
-                        <img src={Editi} alt="sem foto" width={20} />
-                      </button>
-                      <button onClick={() => removeSala(sala.IdSala)} className={styles.Editar}>
-                        <img src={Delete} alt="sem foto" width={20} />
-                      </button>
-                    </div>
-                  )
-                }
+        <div style={{ maxHeight: '67vh', overflowY: 'auto', marginTop: '5vh', marginLeft:'2vw', width:'78vw'}}>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Sala criada</th>
+                <th scope="col">IdSala</th>
+                <th scope="col">Área</th>
+                <th scope="col">Criador</th>
+                <th scope="col">Capacidade</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {salas.length > 0 ? (
+                salas.map((sala) => {
+                  if (
+                    (PesquisarNome === '' || sala.NomeSala.toLowerCase().includes(PesquisarNome.toLowerCase()))
+                  ) {
+                    return (
+                      <tr key={sala.IdSala}>
+                        <td>{sala.NomeSala}</td>
+                        <td>{sala.IdSala}</td>
+                        <td>{sala.Funcao}</td>
+                        <td>{sala.Criador}</td>
+                        <td>{sala.Capacidade}</td>
+                        <td>
+                          <button onClick={() => handleOpenEditModal(sala)} className={styles.Editar}>
+                            <img src={Editi} alt="sem foto" width={20} />
+                          </button>
+                          <button onClick={() => removeSala(sala.IdSala)} className={styles.Editar}>
+                            <img src={Delete} alt="sem foto" width={20} />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  }
 
-              return null
-              } 
-              )
+                  return null;
+                })
+              ) : (
+                <tr>
+                  <td colSpan="5">Lista de salas vazia</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+
+
+        <Modal show={isModalOpen} onHide={handleCloseModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Cadastro de Sala</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form>
+              <div className="mb-3">
+                <label htmlFor="NomeSala" className="form-label">Nome da Sala</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="NomeSala"
+                  placeholder="Digite o nome da sala"
+                  value={novaSala.NomeSala}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="Funcao" className="form-label">Área</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="Funcao"
+                  placeholder="Digite a área da sala"
+                  value={novaSala.Funcao}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="NumeroSala" className="form-label">Número da Sala</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="NumeroSala"
+                  placeholder="Digite o número da sala"
+                  value={novaSala.NumeroSala}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="Capacidade" className="form-label">Capacidade</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  name="Capacidade"
+                  placeholder="Digite a capacidade da sala"
+                  value={novaSala.Capacidade}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="Criador" className="form-label">Criador</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="Criador"
+                  placeholder="Digite o Criador da sala"
+                  value={novaSala.Criador}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Fechar
+            </Button>
+            <Button variant="primary" onClick={createSala}>
+              Cadastrar
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={isEditModalOpen} onHide={handleCloseEditModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Editar Sala</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form>
+              <div className="mb-3">
+                <label htmlFor="NomeSala" className="form-label">Nome da Sala</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="NomeSala"
+                  placeholder="Digite o nome da sala"
+                  value={salaEditada?.NomeSala || ''}
+                  onChange={(e) => handleEditInputChange('NomeSala', e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="Funcao" className="form-label">Função</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="Funcao"
+                  placeholder="Digite a função da sala"
+                  value={salaEditada?.Funcao || ''}
+                  onChange={(e) => handleEditInputChange('Funcao', e.target.value)}
+                />
+              </div>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseEditModal}>
+              Fechar
+            </Button>
+            <Button variant="primary" onClick={editSala}>
+              Atualizar
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={isSearchModalOpen} onHide={closeSearchModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Resultado da Pesquisa</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {salaBuscada !== null ? (
+              <div className={styles.CaixaEdicao}>
+                <div className={styles.modalSearch}>
+                  <p>Nome Da Sala: {salaBuscada.NomeSala}</p>
+                  <p>Funcao Da Sala: {salaBuscada.Funcao}</p>
+                  <p>Criador: {salaBuscada.Criador}</p>
+                  <p>Capacidade: {salaBuscada.Capacidade}</p>
+                </div>
+              </div>
             ) : (
-              <p className={styles.list}>Lista de salas vazia</p>
+              <p className={styles.list}>Sala não encontrada.</p>
             )}
-          </div>
-        </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => handleOpenEditModal(salaBuscada)} className={styles.EditarModal}>
+              <img src={Editi} alt="sem foto" width={20} />
+            </Button>
+            <Button variant="secondary" onClick={() => removeSala(salaBuscada.IdSala)} className={styles.EditarModal}>
+              <img src={Delete} alt="sem foto" width={20} />
+            </Button>
+            <Button variant="secondary" onClick={closeSearchModal} className={styles.Fechar}>
+              Fechar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
-
-      <Modal show={isModalOpen} onHide={handleCloseModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Cadastro de Sala</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form>
-            <div className="mb-3">
-              <label htmlFor="NomeSala" className="form-label">Nome da Sala</label>
-              <input
-                type="text"
-                className="form-control"
-                name="NomeSala"
-                placeholder="Digite o nome da sala"
-                value={novaSala.NomeSala}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="Funcao" className="form-label">Área</label>
-              <input
-                type="text"
-                className="form-control"
-                name="Funcao"
-                placeholder="Digite a área da sala"
-                value={novaSala.Funcao}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="NumeroSala" className="form-label">Número da Sala</label>
-              <input
-                type="text"
-                className="form-control"
-                name="NumeroSala"
-                placeholder="Digite o número da sala"
-                value={novaSala.NumeroSala}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="Capacidade" className="form-label">Capacidade</label>
-              <input
-                type="number"
-                className="form-control"
-                name="Capacidade"
-                placeholder="Digite a capacidade da sala"
-                value={novaSala.Capacidade}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="Criador" className="form-label">Criador</label>
-              <input
-                type="text"
-                className="form-control"
-                name="Criador"
-                placeholder="Digite o Criador da sala"
-                value={novaSala.Criador}
-                onChange={handleInputChange}
-              />
-            </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Fechar
-          </Button>
-          <Button variant="primary" onClick={createSala}>
-            Cadastrar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-     {/* Modal de Edição */}
-     <Modal show={isEditModalOpen} onHide={handleCloseEditModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Editar Sala</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form>
-            <div className="mb-3">
-              <label htmlFor="NomeSala" className="form-label">Nome da Sala</label>
-              <input
-                type="text"
-                className="form-control"
-                name="NomeSala"
-                placeholder="Digite o nome da sala"
-                value={salaEditada?.NomeSala || ''}
-                onChange={(e) => handleEditInputChange('NomeSala', e.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="Funcao" className="form-label">Função</label>
-              <input
-                type="text"
-                className="form-control"
-                name="Funcao"
-                placeholder="Digite a função da sala"
-                value={salaEditada?.Funcao || ''}
-                onChange={(e) => handleEditInputChange('Funcao', e.target.value)}
-              />
-            </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseEditModal}>
-            Fechar
-          </Button>
-          <Button variant="primary" onClick={editSala}>
-            Atualizar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal show={isSearchModalOpen} onHide={closeSearchModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Resultado da Pesquisa</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {salaBuscada !== null ? (
-            <div key={salaBuscada.IdSala} className={styles.CaixaEdicao}>
-              <div className={styles.modalSearch}>
-                <p>Nome Da Sala: {salaBuscada.NomeSala}</p>
-                <p>Funcao Da Sala: {salaBuscada.Funcao}</p>
-                <p>Criador: {salaBuscada.Criador}</p>
-                <p>Capacidade: {salaBuscada.Capacidade}</p>
-              </div>
-              <div>
-                <button onClick={() => handleOpenEditModal(salaBuscada)} className={styles.Editar}>
-                  <img src={Editi} alt="sem foto" width={20} />
-                </button>
-                <button onClick={() => removeSala(salaBuscada.IdSala)} className={styles.Editar}>
-                  <img src={Delete} alt="sem foto" width={20} />
-                </button>
-              </div>
-            </div>
-          ) : (
-            <p className={styles.list}>Sala não encontrada.</p>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={closeSearchModal}>
-            Fechar
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 }

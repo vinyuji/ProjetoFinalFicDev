@@ -12,7 +12,6 @@ class SalaModel extends Model {
       },
         NomeSala: DataTypes.TEXT,
         Funcao: DataTypes.TEXT,
-        TipoSala: DataTypes.TEXT,
         NumeroSala: DataTypes.TEXT,
         Capacidade: DataTypes.INTEGER,
         Criador: DataTypes.TEXT,
