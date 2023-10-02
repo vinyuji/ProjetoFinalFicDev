@@ -4,7 +4,7 @@ const { UserModel } = require('../../model/UsuarioModel');
 class GetUserController {
   async GetUser(req, res) {
     try {
-      const { Cpf } = req.body; // Obtenha o CPF dos parâmetros da solicitação
+      const { Cpf } = req.params; // Obtenha o CPF dos parâmetros da solicitação
 
       // Verifique se o CPF foi fornecido na solicitação
       if (!Cpf) {

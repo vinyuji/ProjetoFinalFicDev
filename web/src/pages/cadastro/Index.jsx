@@ -1,34 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
 import imagem from '../../components/imagem.png';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form';
 import { registerUser } from '../../services/user-services';
+import cpf from 'cpf';
+
+const API_URL = 'http://localhost:8080';
+
 
 export function Cadastro() {
   const navigate = useNavigate();
   const { handleSubmit, register, formState: { errors } } = useForm();
   const [result, setResult] = useState(null);
 
+  useEffect(() => {
+    PesquisarCpf();
+  }, []);
+  
+  async function PesquisarCpf(data) {
+    try {
+      const result = await fetch(`${API_URL}/findUser/${data.Cpf}`, { method: 'GET' });
+      const ExisteData = await result.json();
+  
+      // Verifique se a API retornou algum dado válido que indica a existência do usuário
+      if (ExisteData && ExisteData.Nome) {
+        alert("Usuário já existe");
+        return;
+      } else {
+        // Usuário não existe
+        console.log("Usuário não existe");
+      }
+  
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+
   async function onSubmit(data) {
-    console.log(data);
+
+    //verifica se todos os campos estao preenchidos 
+    if (!data.Nome|| !data.Email|| !data.Cpf|| !data.Cep|| !data.Senha){
+      alert('É preciso preencher todos os campos! ');
+      return;
+    }
+    PesquisarCpf(data);
+
+    //verifica se o Cpf e valido
+    if (!cpf.isValid(data.Cpf)) {
+      alert("Cpf invalido");
+      return;
+    }
+
+    //verifica se o Cep e valido
+    if(!/[0-9]{5}[0-9]{3}$/.test(data.Cep)){
+      alert("Cep Invalido");
+      return;
+    }
+
+    //verifica se o Email é valido
+    if(!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(data.Email)){
+      alert("Email invalido");
+      return;
+    }
+
     try {
       const user = await registerUser(data);
-      setResult(user);
-      console.log(result)
+      console(user);
       if (user) {
         localStorage.setItem('Cpf', user.data.Cpf);
         sessionStorage.setItem('token', user.data.accessToken);
         navigate('/Home');
       } else {
         setResult('Erro de cadastro');
-        alert(errors);
       }
     }
     catch (error) {
-      setResult('Erro ao fazer cadastro');
-      console.error('Erro ao fazer cadastro:', error);
+      setResult(result);
+      console.log(errors);
     }
   }
 
@@ -90,7 +141,6 @@ export function Cadastro() {
             <div className={styles.Cadastrar}>
               <button type='submit' >Cadastrar</button>
             </div>
-            {/* {result.length > 0 ? result : ''} */}
             <div className={styles.likedin}>
                 <Link to="/" >Já tenho uma conta</Link>
               </div>

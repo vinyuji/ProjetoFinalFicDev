@@ -24,7 +24,7 @@ const { authMiddleware } = require('./middleware/auth-middleware');
 // Criando Rotas
 // User
 routes.post('/createUser', CreateUserController.CreateUser);
-routes.get('/findUser', GetUserController.GetUser);
+routes.get('/findUser/:Cpf', GetUserController.GetUser);
 routes.delete('/delUser', authMiddleware, DeleteUserController.DeleteUser);
 routes.put('/upDadosUser/:Cpf', authMiddleware, UpdateUserDadosController.UpdateUserDados);
 routes.put('/upFormacaoUser/:Cpf', authMiddleware, UpdateUserFormacaoController.UpdateUserFormacao);

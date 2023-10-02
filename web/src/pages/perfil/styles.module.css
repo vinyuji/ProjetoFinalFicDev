@@ -8,9 +8,10 @@
 .direita{
     width: 85vw;
 }
-.header h2{
-    margin-left: 1vw;
-    margin-top:  5vh;
+.header h1{
+    margin-left: 3vw;
+    margin-top:  7vh;
+    color: black;
 }
 .header3 {
     margin: 2vw
@@ -19,7 +20,7 @@
     margin-left: 1vw;
     margin-top: 3vh;
     width: 80vw;
-    border-bottom: 2px solid #1A3281;
+    border-bottom: 2px solid black;
 }
 .informacoes{
     margin-top: 2vh;
@@ -41,6 +42,23 @@
     padding-top: 0.5vw;
     padding-bottom: 0.5vw;
 }
+.BOTAO{
+    background-color: #1A3281;
+    border-radius: 0px 10px 10px 0px;
+    width: 5vw;
+    height: 5vh;
+}
+.BUSCAS{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.INPUT{
+    border-radius: 10px 0px 0px 10px;
+    width: 30vw;
+    height: 5vh;
+    border: 1px solid #1A3281;
+}
 .header2{
     display: flex;
     align-items: center;
@@ -59,4 +77,34 @@
     margin-top: 5vh;
     margin-left: 1vw;
 }
+.API{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80vw;
+    height: 55vh;
+    border: 2px solid #1A3281;
+    margin-top: 5vh;
+}
+.dados{
+    display: flex;
+    justify-content: center;
+}
+ .foto{
+   margin-right: 15vw;
+}
+.foto2{
+    margin-right: 20vw;
+ }
+.Fotinhas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.Fotinhas2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5vw;
+}

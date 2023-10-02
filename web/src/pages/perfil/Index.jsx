@@ -2,11 +2,19 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
 import { Esquerda } from '../../components/Esquerda/Esqueda';
 import { userLogado } from '../../services/user-services';
+import Lupa from '../../components/lupa.png'
+import Localizacao from '../../components/Localizacao.png';
+import perfil from '../../components/Perfil.png';
+
+const API_URL = 'https://api.github.com/users';
 
 export function Perfil() {
   const [user, setUser] = useState('');
   const [cepUrl, setcepUrl] = useState({});
-  const [activeTab, setActiveTab] = useState('infoPessoais'); // Estado para controlar a guia ativa
+  const [activeTab, setActiveTab] = useState('infoPessoais');
+  const [usuario, setUsuario] = useState('');
+  const [retornoAPI, setRetornoAPI] = useState(null);
+  
 
   useEffect(() => {
     fetchLogado();
@@ -40,12 +48,19 @@ export function Perfil() {
     setActiveTab(tabId); 
   };
 
+  async function consultarUser() {
+    const result = await fetch(`${API_URL}/${usuario}`)
+    const data = await result.json()
+    setRetornoAPI(data)
+    console.log(data)
+}
+
   return (
     <div className={styles.tudo}>
       <Esquerda></Esquerda>
       <div className={styles.direita}>
         <div className={styles.header}>
-          <h2>Perfil</h2>
+          <h1>Perfil</h1>
           <div className={styles.linha1}></div>
         </div>
         <div className={styles.header3}>
@@ -60,52 +75,94 @@ export function Perfil() {
               </a>
             </li>
             <li className="nav-item">
-              <a
-                className={`nav-link ${activeTab === 'localizacao' ? 'active custom-bg' : 'custom-bg'}`}
-                href="#localizacao"
-                onClick={() => handleTabClick('localizacao')}
-              >
-                Moradia
-              </a>
+              <div className={styles.Fotinhas}>
+                  <a
+                    className={`nav-link ${activeTab === 'localizacao' ? 'active custom-bg' : 'custom-bg'}`}
+                    href="#localizacao"
+                    onClick={() => handleTabClick('localizacao')}
+                  >
+                    Moradia
+                  </a>
+              </div>
             </li>
             <li className="nav-item">
               <a
-                className={`nav-link ${activeTab === 'formacao' ? 'active custom-bg' : 'custom-bg'}`}
-                href="#formacao"
-                onClick={() => handleTabClick('formacao')}
+                className={`nav-link ${activeTab === 'Github' ? 'active custom-bg' : 'custom-bg'}`}
+                href="#Github"
+                onClick={() => handleTabClick('Github')}
               >
-                Formacao
+                Github
               </a>
             </li>
           </ul>
         </div>
         <div className={styles.infosGerais}>
           <div id='infoPessoais' style={{ display: activeTab === 'infoPessoais' ? 'block' : 'none' }}>
-              <div>
+            <div className={styles.Fotinhas2}>
+              <div className={styles.foto2}>
                 <h4>Nome</h4>
                 <h4 className={styles.blocos}>{user.Nome}</h4>
                 <h4>Cpf</h4>
                 <h4 className={styles.blocos}>{user.Cpf}</h4>
                 <h4>Email</h4>
                 <h4 className={styles.blocos}>{user.Email}</h4>
-              </div>
-          </div>
-          <div id='localizacao' style={{ display: activeTab === 'localizacao' ? 'block' : 'none' }}>
-              <div>
                 <h4>Cep</h4>
                 <h4 className={styles.blocos}>{user.Cep}</h4>
-                <h4>Uf</h4>
-                <h4 className={styles.blocos}>{cepUrl.uf}</h4>
-                <h4>Cidade</h4>
-                <h4 className={styles.blocos}>{cepUrl.localidade}</h4>
-                <h4>Bairro</h4>
-                <h4 className={styles.blocos}>{cepUrl.bairro}</h4>
-                <h4>Logradouro</h4>
-                <h4 className={styles.blocos}>{cepUrl.logradouro}</h4>
+              </div>
+              <div>
+                <img src={perfil} alt="sem foto" width={200}/>
+              </div>
+            </div>
+          </div>
+          <div id='localizacao' style={{ display: activeTab === 'localizacao' ? 'block' : 'none' }}>
+            <div className={styles.Fotinhas}>
+                <div className={styles.foto}>
+                  <h5>Cep</h5>
+                  <h4 className={styles.blocos}>{user.Cep}</h4>
+                  <h5>Uf</h5>
+                  <h4 className={styles.blocos}>{cepUrl.uf}</h4>
+                  <h5>Cidade</h5>
+                  <h4 className={styles.blocos}>{cepUrl.localidade}</h4>
+                  <h5>Bairro</h5>
+                  <h4 className={styles.blocos}>{cepUrl.bairro}</h4>
+                  <h5>Logradouro</h5>
+                  <h4 className={styles.blocos}>{cepUrl.logradouro}</h4>
+                </div>
+                <div>
+                    <img src={Localizacao} alt="sem foto" width={400}/>
+                </div>
               </div>
           </div>
-          <div id='formacao' style={{ display: activeTab === 'formacao' ? 'block' : 'none' }}>
-            {/* Renderize informações de formação aqui */}
+          <div id='Github' style={{ display: activeTab === 'Github' ? 'block' : 'none' }}>
+            <div className={styles.BUSCAS}> 
+                          <input className={styles.INPUT} type="text" value={usuario} onChange={(e) => { setUsuario(e.target.value) }} placeholder='Digite o nick que deseja buscar'/>
+                          <button className={styles.BOTAO}>
+                            <img onClick={consultarUser} src={Lupa} alt="sem foto" width={35} height={35}/>
+                          </button>                        
+            </div>
+            <div className={styles.API}>
+              {retornoAPI
+                            ?
+                            <div className={styles.dados}>
+                                <div className={styles.foto}>
+                                    <h3>Foto de Perfil:</h3>
+                                    <img src={retornoAPI.avatar_url} alt="sem foto" width={170} className='foto2'/>
+                                </div>
+                                <div>
+                                  <p>Nome: {retornoAPI.name}</p> 
+                                  <p>NickName: {retornoAPI.login}</p> 
+                                  <p>Html_Url: {retornoAPI.html_url}</p>
+                                  <p>Email: {retornoAPI.email}</p>
+                                  <p>Bio: {retornoAPI.bio}</p>
+                                  <p>Repositorio: {retornoAPI.public_repos}</p>
+                                </div>
+                            </div>
+                            : 
+                            <div className="dados">
+                                <p>Pesquise o GitHub de alguem</p>
+                            </div>  
+                    }
+            </div>
           </div>
         </div>
       </div>
