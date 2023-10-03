@@ -5,6 +5,7 @@ import Lupa from '../../components/lupa.png';
 import Editi from '../../components/editar.png';
 import Delete from '../../components/delete.png';
 import { Modal, Button, Form } from 'react-bootstrap';
+import cpf from 'cpf';
 // import { Option } from '../../components/Option';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -147,10 +148,55 @@ export function Reserva() {
 
   async function CreateReserva() {
     try {
-      if( !novaReserva.IdSala || !novaReserva.Cpf || !novaReserva.Capacidade ){
-        alert('Precisa selecionar a sala; O Cpf é obrigatório; Capacidade é obrigatório');
+      if (!novaReserva.IdSala) {
+        alert('É necessario selecionar a sala');
         return;
       }
+      if (!novaReserva.Cpf) {
+        alert('É necessario informar o Cpf');
+        return;
+      }
+      if (!novaReserva.Capacidade) {
+        alert('É necessario informar a Capacidade');
+        return;
+      }
+  
+      //verifica se o Cpf e valido
+      if (!cpf.isValid(novaReserva.Cpf)) {
+        alert("Cpf invalido");
+        return;
+      }
+      // Verifique se a sala já está reservada para a data selecionada
+      const dataSelecionada = new Date(novaReserva.DataReserva);
+
+      const salaReservada = reservas.find((reserva) => {
+        const dataReserva = new Date(reserva.DataReserva);
+        console.log("Data formatada da nova reserva: ", dataSelecionada.toISOString().slice(0, 10));
+        console.log("Data formatada da reserva existente: ", dataReserva.toISOString().slice(0, 10));
+        const IdSalaCriada = reserva.IdSala.toString();
+        const reservada = novaReserva.IdSala.toString();
+
+        console.log("Id Sala Criada",IdSalaCriada);
+        console.log("Id da reserva sala", reservada);
+        // Compare as datas diretamente, excluindo as informações de fuso horário
+        if (
+          IdSalaCriada === reservada &&
+          dataReserva.toISOString().slice(0, 10) === dataSelecionada.toISOString().slice(0, 10)
+        ) {
+          return true;
+        }
+        
+        return false;
+      });
+      if (salaReservada) {
+        alert('Esta sala já está reservada para esta data. Por favor, escolha outra sala ou data.');
+        return;
+      }
+
+      
+      
+      
+    
       const response = await fetch(`${API_URL}/reserva`, {
         method: 'POST',
         headers: {
@@ -159,7 +205,7 @@ export function Reserva() {
         body: JSON.stringify(novaReserva),
       });
       const novaReservaData = await response.json();
-
+  
       if (response.status === 201) {
         alert('Reserva criada com sucesso!');
         setNovaReserva({
@@ -178,6 +224,7 @@ export function Reserva() {
       console.error('Ocorreu um erro ao criar a reserva', error);
     }
   }
+  
 
   async function deleteReserva(IdReserva) {
     if (!window.confirm('Tem certeza de que deseja excluir esta reserva?')) {
@@ -212,8 +259,8 @@ export function Reserva() {
 
     function formatarData(data) {
     const dataObj = new Date(data);
-    const dia = String(dataObj.getDate()).padStart(2, '0');
-    const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // +1 porque os meses começam em 0
+    const dia = String(dataObj.getDate() + 1).padStart(0, '0');
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); 
     const ano = dataObj.getFullYear();
     return `${dia}/${mes}/${ano}`;
   }
@@ -298,21 +345,10 @@ export function Reserva() {
               <Form.Select
                 onChange={(e) => {
                   const novaSalaId = e.target.value;
-                  const salaSelecionada = salas.find((sala) => sala.IdSala === novaSalaId);
-
-                  if (salaSelecionada) {
-                    setNovaReserva({
-                      ...novaReserva,
-                      IdSala: salaSelecionada.IdSala, // Usar salaSelecionada.IdSala
-                      Capacidade: salaSelecionada.Capacidade,
-                    });
-                  } else {
-                    setNovaReserva({
-                      ...novaReserva,
-                      IdSala: novaSalaId,
-                      Capacidade: '50', // Defina um valor padrão ou vazio se a sala não for encontrada
-                    });
-                  }
+                  setNovaReserva({
+                    ...novaReserva,
+                    IdSala: novaSalaId,
+                  });
                 }}
               >
                 <option disabled>Clique para selecionar</option>
@@ -324,7 +360,19 @@ export function Reserva() {
                     ))
                   : <></>}
               </Form.Select>
-              </Form.Group>
+            </Form.Group>
+
+                <div className="mb-3">
+                  <label htmlFor="Capacidade" className="form-label">Capacidade</label>
+                  <input
+                    type="integer"
+                    className="form-control"
+                    id="Capacidade"
+                    placeholder="Digite a capacidade"
+                    value={novaReserva.Capacidade}
+                    onChange={(e) => setNovaReserva({ ...novaReserva, Capacidade: e.target.value })}
+                  />
+                </div>
                 <div className="mb-3">
                   <label htmlFor="DataReserva" className="form-label">Data de reserva</label>
                   <input
