@@ -5,7 +5,7 @@ import Lupa from '../../components/lupa.png';
 import Editi from '../../components/editar.png';
 import Delete from '../../components/delete.png';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { Option } from '../../components/Option';
+// import { Option } from '../../components/Option';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -294,106 +294,118 @@ export function Reserva() {
           <Modal.Body>
             <form>
             <Form.Group className="mb-3">
-                <Form.Label>Seleciona a Sala</Form.Label>
-                <Form.Select onChange={(e) => setNovaReserva({ ...novaReserva, IdSala: e.target.value })}>
-                  <option disabled>Clique para selecionar</option>
-                  {salas && salas.length > 0
-                    ? salas.map((sala, index) => (
-                      <Option
-                        key={index}
-                        id={sala.IdSala}
-                        nome={sala.NomeSala}
-                        />
-                    ))
-                      :<></>}
-                </Form.Select>
-            </Form.Group>
-              <div className="mb-3">
-                <label htmlFor="DataReserva" className="form-label">Data de reserva</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="DataReserva"
-                  placeholder="Digite a função da sala"
-                  value={novaReserva.DataReserva}
-                  onChange={(e) => setNovaReserva({ ...novaReserva, DataReserva: e.target.value })}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="Capacidade" className="form-label">Capacidade</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="Capacidade"
-                  placeholder="Digite a função da sala"
-                  value={novaReserva.Capacidade}
-                  onChange={(e) => setNovaReserva({ ...novaReserva, Capacidade: e.target.value })}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="Cpf" className="form-label">Cpf</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="Cpf"
-                  placeholder="Digite a função da sala"
-                  value={novaReserva.Cpf}
-                  onChange={(e) => setNovaReserva({ ...novaReserva, Cpf: e.target.value })}
-                />
-              </div>
-            </form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Fechar
-            </Button>
-            <Button variant="primary" onClick={CreateReserva}>
-              Reservar
-            </Button>
-          </Modal.Footer>
-        </Modal>
+              <Form.Label>Seleciona a Sala</Form.Label>
+              <Form.Select
+                onChange={(e) => {
+                  const novaSalaId = e.target.value;
+                  const salaSelecionada = salas.find((sala) => sala.IdSala === novaSalaId);
 
-      <Modal show={isEditModalOpen} onHide={handleCloseEditModal} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>Editar Reserva</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <form>
-            <Form.Group className="mb-3">
+                  if (salaSelecionada) {
+                    setNovaReserva({
+                      ...novaReserva,
+                      IdSala: salaSelecionada.IdSala, // Usar salaSelecionada.IdSala
+                      Capacidade: salaSelecionada.Capacidade,
+                    });
+                  } else {
+                    setNovaReserva({
+                      ...novaReserva,
+                      IdSala: novaSalaId,
+                      Capacidade: '50', // Defina um valor padrão ou vazio se a sala não for encontrada
+                    });
+                  }
+                }}
+              >
+                <option disabled>Clique para selecionar</option>
+                {salas && salas.length > 0
+                  ? salas.map((sala, index) => (
+                      <option key={index} value={sala.IdSala}>
+                        {sala.NomeSala}
+                      </option>
+                    ))
+                  : <></>}
+              </Form.Select>
+              </Form.Group>
+                <div className="mb-3">
+                  <label htmlFor="DataReserva" className="form-label">Data de reserva</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="DataReserva"
+                    placeholder="Digite a função da sala"
+                    value={novaReserva.DataReserva}
+                    onChange={(e) => setNovaReserva({ ...novaReserva, DataReserva: e.target.value })}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="Cpf" className="form-label">Cpf</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="Cpf"
+                    placeholder="Digite a função da sala"
+                    value={novaReserva.Cpf}
+                    onChange={(e) => setNovaReserva({ ...novaReserva, Cpf: e.target.value })}
+                  />
+                </div>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                Fechar
+              </Button>
+              <Button variant="primary" onClick={CreateReserva}>
+                Reservar
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+        <Modal show={isEditModalOpen} onHide={handleCloseEditModal} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Editar Reserva</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form>
+              <Form.Group className="mb-3">
                 <Form.Label>Seleciona a Sala</Form.Label>
-                <Form.Select onChange={(e) => setNovaReserva({ ...novaReserva, IdSala: e.target.value })}>
+                <Form.Select
+                  onChange={(e) => {
+                    const novaSalaId = e.target.value;
+                    const salaSelecionada = salas.find((sala) => sala.IdSala === novaSalaId);
+
+                    if (salaSelecionada) {
+                      setReservaEditada({
+                        ...reservaEditada,
+                        IdSala: salaSelecionada.IdSala, // Usar salaSelecionada.IdSala
+                        Capacidade: salaSelecionada.Capacidade,
+                      });
+                    } else {
+                      setReservaEditada({
+                        ...reservaEditada,
+                        IdSala: novaSalaId,
+                        Capacidade: '50', // Defina um valor padrão ou vazio se a sala não for encontrada
+                      });
+                    }
+                  }}
+                >
                   <option disabled>Clique para selecionar</option>
                   {salas && salas.length > 0
                     ? salas.map((sala, index) => (
-                      <Option
-                        key={index}
-                        id={sala.IdSala}
-                        nome={sala.NomeSala}
-                        />
-                    ))
-                      :<></>}
+                        <option key={index} value={sala.IdSala}>
+                          {sala.NomeSala}
+                        </option>
+                      ))
+                    : <></>}
                 </Form.Select>
-            </Form.Group>
+              </Form.Group>
               <div className="mb-3">
                 <label htmlFor="DataReserva" className="form-label">Data de Reserva</label>
                 <input
-                  type="text"
+                  type="date"
                   className="form-control"
                   name="DataReserva"
                   placeholder="Digite o nome da sala"
                   value={reservaEditada?.DataReserva || ''}
                   onChange={(e) => handleEditInputChange('DataReserva', e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="Capacidade" className="form-label">Capacidade</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  name="Capacidade"
-                  placeholder="Digite a capacidade da sala"
-                  value={reservaEditada?.Capacidade || ''}
-                  onChange={(e) => handleEditInputChange('Capacidade', e.target.value)}
                 />
               </div>
               <div className="mb-3">
