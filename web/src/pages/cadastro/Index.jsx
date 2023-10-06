@@ -28,11 +28,8 @@ export function Cadastro() {
       if (ExisteData && ExisteData.Nome) {
         alert("Usuário já existe");
         return;
-      } else {
-        // Usuário não existe
-        console.log("Usuário não existe");
-      }
-  
+      } 
+      return;
     } catch (error) {
       console.error(error);
     }
@@ -68,8 +65,8 @@ export function Cadastro() {
 
     try {
       const user = await registerUser(data);
-      console(user);
       if (user) {
+        console.log("entrou");
         localStorage.setItem('Cpf', user.data.Cpf);
         sessionStorage.setItem('token', user.data.accessToken);
         navigate('/Home');

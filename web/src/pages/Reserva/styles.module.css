@@ -73,7 +73,7 @@
     background-color: transparent;
 }
 .EditarModal{
-    background-color: white;
+    background-color: transparent !important;;
 }
 .lista2 {
     border: 2px solid #1A3281;
@@ -106,6 +106,6 @@
 }
 
 .Fechar{
-    background-color: #1A3281;
+    background-color: #1A3281  !important;
 }
 

@@ -112,7 +112,7 @@
 }
 .Sala{
     width: 35vw;
-    height: 29vh;
+    height: 62vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -124,20 +124,7 @@
     margin-top: 2vw;
     background-color: white;
 }
-.Reservas{
-    width: 35vw;
-    height: 29vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    border-radius: 10px;
-    border: 2px solid #1A3281;
-    margin-right: 2vw;
-    margin-left: 2vw;
-    margin-bottom: 2vw;
-    background-color: white;
-}
+
 .Capacidade{
     width: 35vw;
     height: 29vh;

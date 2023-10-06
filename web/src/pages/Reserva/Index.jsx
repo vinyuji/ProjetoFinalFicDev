@@ -299,7 +299,7 @@ export function Reserva() {
                 <th scope="col">Id reserva</th>
                 <th scope="col">IdSala</th>
                 <th scope="col">Data reserva</th>
-                <th scope="col">Capacidade</th>
+                <th scope="col">Qtd de pessoas</th>
                 <th scope="col">Id reservador</th>
                 <th scope="col">Ações</th>
               </tr>
@@ -363,7 +363,7 @@ export function Reserva() {
             </Form.Group>
 
                 <div className="mb-3">
-                  <label htmlFor="Capacidade" className="form-label">Capacidade</label>
+                  <label htmlFor="Capacidade" className="form-label">Qta de pessoas</label>
                   <input
                     type="integer"
                     className="form-control"
@@ -418,21 +418,10 @@ export function Reserva() {
                 <Form.Select
                   onChange={(e) => {
                     const novaSalaId = e.target.value;
-                    const salaSelecionada = salas.find((sala) => sala.IdSala === novaSalaId);
-
-                    if (salaSelecionada) {
                       setReservaEditada({
                         ...reservaEditada,
-                        IdSala: salaSelecionada.IdSala, // Usar salaSelecionada.IdSala
-                        Capacidade: salaSelecionada.Capacidade,
+                        IdSala: novaSalaId, // Usar salaSelecionada.IdSala
                       });
-                    } else {
-                      setReservaEditada({
-                        ...reservaEditada,
-                        IdSala: novaSalaId,
-                        Capacidade: '50', // Defina um valor padrão ou vazio se a sala não for encontrada
-                      });
-                    }
                   }}
                 >
                   <option disabled>Clique para selecionar</option>
@@ -445,6 +434,17 @@ export function Reserva() {
                     : <></>}
                 </Form.Select>
               </Form.Group>
+              <div className="mb-3">
+                <label htmlFor="Capacidade" className="form-label">Qtd de pessoas</label>
+                <input
+                  type="integer"
+                  className="form-control"
+                  name="Capacidade"
+                  placeholder="Digite a quantidade de pessoas"
+                  value={reservaEditada?.Capacidade || ''}
+                  onChange={(e) => handleEditInputChange('Capacidade', e.target.value)}
+                />
+              </div>
               <div className="mb-3">
                 <label htmlFor="DataReserva" className="form-label">Data de Reserva</label>
                 <input
