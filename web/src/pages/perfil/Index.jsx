@@ -20,6 +20,10 @@ export function Perfil() {
     fetchLogado();
   },[]);
 
+
+  //esta funcao vai puxar do sessionStorage o item token para que seja possivel a identificacao do usuario que foi logado
+  //assim permitindo pegar o usuario e exibila, juntamente com o cep para que possa fazer uma api-Publica via cep
+
   async function fetchLogado() {
     try {
       const token = sessionStorage.getItem('token');
@@ -31,6 +35,7 @@ export function Perfil() {
     }
   }
 
+  // vai pegar o cep achado no login e usara para fazer uma consulta via cep publica 
   async function fetchCep(cep) {
     try {
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
@@ -44,10 +49,13 @@ export function Perfil() {
     }
   }
 
+  //esta fucao ira permitir mostrar somente as informacoes que um determinado botao for clicado
+
   const handleTabClick = (tabId) => {
     setActiveTab(tabId); 
   };
 
+  // aqui ira mostrar as informacoes de usuario, cujo o cep foi resgatado pelo token
   async function consultarUser() {
     const result = await fetch(`${API_URL}/${usuario}`)
     const data = await result.json()

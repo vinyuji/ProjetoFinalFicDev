@@ -31,32 +31,39 @@ export function Sala() {
     fetchSalas();
   }, []);
 
+  //serve para abrir as models de pesquisa por id
   const openSearchModal = () => {
     setIsSearchModalOpen(true);
   };
 
+  //serve para fechar as models de pesquisa por id
   const closeSearchModal = () => {
     setIsSearchModalOpen(false);
   };
 
+  //serve para abrir as models de cadastro
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
+  //serve para fehcar as models de cadastro
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
+  //serve para abrir as models de edicao
   const handleOpenEditModal = (sala) => {
     setIsEditModalOpen(true);
     setSalaEditada(sala);
   };
 
+  //serve para fechar as models de edicao
   const handleCloseEditModal = () => {
     setIsEditModalOpen(false);
     setSalaEditada(null);
   };
 
+  // pesquisa salas
   async function fetchSalas() {
     try {
       const result = await fetch(`${API_URL}/sala`, { method: 'GET' });
@@ -67,6 +74,7 @@ export function Sala() {
     }
   }
 
+  // pesquisar sala por id
   async function buscarSalaPorId() {
     if (!PesquisarId) {
       return;

@@ -31,28 +31,35 @@ export function Reserva() {
   });
 
 
+  //serve para abrir as models de pesquisa por id
   const openSearchModal = () => {
     fetchReservas();
     setIsSearchModalOpen(true);
   };
 
+  //serve para fehcar as models de pesquisa por id
   const closeSearchModal = () => {
     fetchReservas();    
     setIsSearchModalOpen(false);
   };
 
+  //serve para abrir as models de cadastro
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
+  //serve para fechar as models de cadastro
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  //serve para abrir as models de edicao
   const handleOpenEditModal = (sala) => {
     setIsEditModalOpen(true);
     setReservaEditada(sala);
   };
 
+  //serve para fechar as models de edicao
   const handleCloseEditModal = () => {
     setIsEditModalOpen(false);
     setReservaEditada(null);
@@ -248,6 +255,7 @@ export function Reserva() {
       console.error('Ocorreu um erro ao excluir a reserva', error);
     }
   }
+
 
 
   const handleEditInputChange = (field, value) => {

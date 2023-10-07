@@ -18,8 +18,10 @@ export function Login() {
       console.log(user);
       console.log(user.data.accessToken)
       if (user) {
+        //vai implementar o Cpf no localStorage w o accestoken no sessionStorege
         localStorage.setItem('Cpf', user.data.Cpf);
         sessionStorage.setItem('token', user.data.accessToken);
+        //retorna para o Home caso nao haja token
         navigate('/Home');
       } else {
         setResult('Erro de autenticação');

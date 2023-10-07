@@ -32,7 +32,7 @@ export function Home() {
 
         // Cria o gráfico de barras lado a lado
         chartRef.current.chart = new Chart(ctx, {
-          type: 'bar', // Alterado para 'bar'
+          type: 'bar', 
           data: {
             labels: ['Quantidade de Salas e Reservas'],
             datasets: [

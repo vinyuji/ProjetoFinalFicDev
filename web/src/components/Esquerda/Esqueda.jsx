@@ -26,7 +26,7 @@ export function Esquerda(){
           <Link to="/">
             <img src={Close} alt="sem foto" width={ 30 }  />
           </Link>
-          <Link to="/"><h2>Sair</h2></Link>
+          <Link to="/" onClick={()=> sessionStorage.removeItem(`token`)}><h2>Sair</h2></Link>
         </div>
       </div>
     )
